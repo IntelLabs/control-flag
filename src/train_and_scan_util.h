@@ -50,7 +50,7 @@ class TrainAndScanUtil {
     TreeLevel max_level_ = LEVEL_MAX;
     size_t max_autocorrections_ = 5;
     size_t num_threads_ = 1;
-    float anomaly_threshold_ = 5;
+    float anomaly_threshold_ = 3;
     LogLevel log_level_ = LogLevel::ERROR;
   };
 
@@ -69,7 +69,7 @@ class TrainAndScanUtil {
  private:
   template <TreeLevel L, Language G>
   void ReportPossibleCorrections(const Trie& trie,
-      const std::string& code_block_str,
+      const std::string& code_block_str, bool found_in_training_dataset,
       std::ostream& log_file) const;
 
   template <TreeLevel L, Language G>

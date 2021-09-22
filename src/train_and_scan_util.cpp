@@ -36,6 +36,7 @@ template int TrainAndScanUtil::ScanExpression<LANGUAGE_VERILOG>(
 template <TreeLevel L, Language G>
 void TrainAndScanUtil::ReportPossibleCorrections(const Trie& trie,
     const std::string& code_block_str,
+    bool found_in_training_dataset,
     std::ostream& log_file) const {
   // We maintain different expression cacne per level since
   // there is no sharing of expressions between different
@@ -59,6 +60,17 @@ void TrainAndScanUtil::ReportPossibleCorrections(const Trie& trie,
       log_file << "Autocorrect search took "
                << timer_trie_search.TimerDiff() << " secs" << std::endl;
     }
+    if (!found_in_training_dataset) {
+      // If the expression is not found in the training dataset then we
+      // will have to store the base expression at cost 0 in the nearest
+      // expressions so that autocorrection works fine.
+      const NearestExpression::Cost kZeroCost = 0;
+      const NearestExpression::NumOccurrences kZeroOccurrences = 0;
+      nearest_expressions.push_back(NearestExpression(code_block_str,
+                                   kZeroCost,
+                                   kZeroOccurrences));
+    }
+
     // Sort and rank results based on distance and occurrence.
     trie.SortAndRankResults(nearest_expressions);
 
@@ -79,8 +91,13 @@ void TrainAndScanUtil::ReportPossibleCorrections(const Trie& trie,
     log_file << std::endl;
   };
 
-  if (trie.IsPotentialAnomaly(nearest_expressions,
-                              scan_config_.anomaly_threshold_)) {
+  bool is_potential_anomaly = trie.IsPotentialAnomaly(nearest_expressions,
+                                              scan_config_.anomaly_threshold_);
+
+  /* Expressions missing from the training data at LEVEL_ONE are not reported
+   * as anomaly if they are not missing at LEVEL_TWO. */
+  if ((L == LEVEL_ONE && found_in_training_dataset && is_potential_anomaly) ||
+      (L == LEVEL_TWO && is_potential_anomaly)) {
     log_file << "Expression is Potential anomaly" << std::endl;
     print_autocorrect_results();
   } else {
@@ -116,7 +133,8 @@ bool TrainAndScanUtil::ScanExpressionForAnomaly(const Trie& trie,
   print_details(found_in_training_dataset ? "found" : "not found");
 
   // Suggest expressions that are close to current expression.
-  ReportPossibleCorrections<L, G>(trie, code_block_str, log_file);
+  ReportPossibleCorrections<L, G>(trie, code_block_str,
+                                  found_in_training_dataset, log_file);
   return found_in_training_dataset;
 }
 
@@ -149,7 +167,8 @@ bool TrainAndScanUtil::ScanExpressionForAnomaly(const Trie& trie,
   print_details(found_in_training_dataset ? "found" : "not found");
 
   // Suggest expressions that are close to current expression.
-  ReportPossibleCorrections<L, G>(trie, code_block_str, log_file);
+  ReportPossibleCorrections<L, G>(trie, code_block_str,
+                                  found_in_training_dataset, log_file);
   return found_in_training_dataset;
 }
 

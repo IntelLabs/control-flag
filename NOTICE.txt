@@ -1,0 +1,1 @@
+This project uses TreeSitter project developed at https://tree-sitter.github.io/tree-sitter/.

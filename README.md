@@ -1,8 +1,8 @@
 # ControlFlag: A Self-supervised Idiosyncratic Pattern Detection System for Software Control Structures
 
 ControlFlag is a self-supervised idiosyncratic pattern detection system that
-learns typical patterns that occur in control structures of high-level
-programming language such as C/C++ by mining these patterns from open-source
+learns typical patterns that occur in the control structures of high-level
+programming languages, such as C/C++, by mining these patterns from open-source
 repositories (on GitHub and other version control systems). It then applies
 learned patterns to detect anomalous patterns in user's code.
 
@@ -10,15 +10,15 @@ learned patterns to detect anomalous patterns in user's code.
 
 ControlFlag's pattern anomaly detection system can be used for various problems
 such as typographical error detection, flagging a missing NULL check to
-name a few. *This PoC demonstrates ControlFlag's application in typographical
+name a few. *This PoC demonstrates ControlFlag's application in the typographical
 error detection.*
 
 Figure below shows ControlFlag's two main phases: (1) pattern
 mining phase, and (2) scanning for anomalous patterns phase. The pattern mining
-phase is a "training phase" that mines typical patterns in user-provided GitHub
+phase is a "training phase" that mines typical patterns in the user-provided GitHub
 repositories and then builds a decision-tree from the mined patterns. The scanning
-phase, on the other hand, applies the mined patterns to look for anomalies in
-user-specified target repositories.
+phase, on the other hand, applies the mined patterns to flag anomalous
+expressions in the user-specified target repositories.
 
 ![ControlFlag design](/docs/controlflag_design.jpg)
 
@@ -51,7 +51,8 @@ $ cmake .
 $ make -j
 $ make test
 ```
-All tests in `make test` should pass, but currently tests for Verilog are failing because of version mismatch.
+All tests in `make test` should pass, but currently tests for Verilog are failing because of a version mismatch issue.
+Verilog support is WIP.
 
 ## Using ControlFlag
 
@@ -77,7 +78,7 @@ To scan C code of your choice, use below command:
 $ scripts/scan_for_anomalies.sh -d <your_directory> -t c_lang_if_stmts_6000_gitrepos.ts -o <output_directory_to_store_log_files>
 ```
 
-Once the run is complete (which could take time depending on your system and the
+Once the run is complete (which could take some time depending on your system and the
 number of C programs in your repository,) refer to [the section below to
 understand scan output](#understanding-scan-output).
 
@@ -92,7 +93,7 @@ Simply run below command:
 cd quick_start && ./test1_c.sh
 ```
 
-If everything goes well, you can see output from scanner in `test1_scan_output`
+If everything goes well, you can see output from the scanner in `test1_scan_output`
 directory. Look for "Potential anomaly" label in it by `grep "Potential anomaly"
 -C 5 \*.log`, and you should see output like below:
 
@@ -151,15 +152,15 @@ We use it as:
 $ scripts/mine_patterns.sh -d <training_repo_dir> -o <training_data_file> -l 1
 ```
 
-`<training_dat_file>` contains conditional expressions in C language and
-their AST (abstract syntax tree) representations for all the `if` statements
-found in the specified GitHub repos. You can view this file as a text file, if
+`<training_dat_file>` contains conditional expressions in C language that are
+found in the specified GitHub repos and their AST (abstract syntax tree) representations.
+You can view this file as a text file, if
 you want.
 
 ## Evaluation (or scanning for anomalies in C code from test repo)
 
 We can run `scan_for_anomalies.sh` script to scan target directory of interest.
-It's usage is as below.
+Its usage is as below.
 ```
 Usage: ./scan_for_anomalies.sh -t <training_data> -d <directory_to_scan_for_anomalous_patterns>
 Optional:
@@ -168,25 +169,25 @@ Optional:
  [-j number_of_scanning_threads]            (default: num_cpus_on_systems)
  [-o output_log_dir]                        (default: /tmp)
  [-l source_language_number]                (default: 1 (C), supported: 1 (C), 2 (Verilog))
- [-a anomaly_threshold]                     (default: 5.0)
+ [-a anomaly_threshold]                     (default: 3.0)
 ```
 
 ```
 scripts/scan_for_anomalies.sh -d <test_directory> -t <training_data_file> -o <output_log_dir>
 ```
 
-As a part of scanning for anomalies, ControlFlag also suggests a possible
-corrections in case a conditional expression is flagged as anomaly. `25` is the
-`max_cost` for correction -- how close should the correction suggested be to
+As a part of scanning for anomalies, ControlFlag also suggests possible
+corrections in case a conditional expression is flagged as an anomaly. `25` is the
+`max_cost` for the correction -- how close should the suggested correction be to
 possibly mistyped expression. Increasing `max_cost` leads to suggesting more
-corrections. ___If you feel that the number of anomalies that are reported are
-high, consider reducing `anomaly_threshold` even lower to `1.0` or less___.
+corrections. ___If you feel that the number of reported anomalies is
+high, consider reducing `anomaly_threshold` to `1.0` or less___.
 
 ### Understanding scan output
 
 Under `output_log_dir` you will find multiple log files corresponding to
 the scan output from different scanner threads. Potential anomalies are reported
-with "Potential anomaly" as a label for them. Command below will report log files
+with "Potential anomaly" as a label. Command below will report log files
 containing at least one anomaly.
 
 ```
@@ -200,5 +201,4 @@ Source file and line number: <C code with line number having the anomaly>
 Potential anomaly
 Did you mean ...
 ```
-Text after "Did you mean" are possible corrections that one can do to correct
-the anomalous expression.
+The text after "Did you mean" shows possible corrections to the anomalous expression.

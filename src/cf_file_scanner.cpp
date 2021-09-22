@@ -51,7 +51,7 @@ static int handle_command_args(int argc, char* argv[], FileScannerArgs& args) {
            << std::endl
            << "  [-o output_log_dir]                        (default: /tmp)"
            << std::endl
-           << "  [-a anomaly_threshold]                     (default: 5.0)"
+           << "  [-a anomaly_threshold]                     (default: 3.0)"
            << std::endl
            << "  [-l source_language_number]                (default: 1 (C), "
            << "supported: 1 (C), 2 (Verilog))"
