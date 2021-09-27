@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function print_usage() {
   echo -n "Usage: $1 -t <training_data>"
@@ -54,7 +54,7 @@ then
   print_usage $0
 fi 
 
-SCAN_FILE_LIST=`mktemp -p ~/tmp`
+SCAN_FILE_LIST=`mktemp`
 if [ "${LANGUAGE}" = "1" ];
 then
   find "${SCAN_DIR}" -iname "*.c" -o -iname "*.h" -type f > ${SCAN_FILE_LIST}

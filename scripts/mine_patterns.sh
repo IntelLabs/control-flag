@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function print_usage() {
   echo -n "Usage: $1 -d <directory_to_mine_patterns_from>" 
@@ -67,7 +67,7 @@ then
   echo "GNU Parallel does not exist. Invoking serial dump.."
   for id_f in `cat $FILE_LIST`;
   do
-    dump_code_blocks $f ${OUTPUT_FILE}
+    dump_code_blocks ${id_f} ${OUTPUT_FILE}
   done
 
 else
