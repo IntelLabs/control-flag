@@ -1,3 +1,8 @@
+[![build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/controlflag_cmake.yml)
+[![style_check](https://github.com/IntelLabs/control-flag/actions/workflows/controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/controlflag_cpplint.yml)
+[![GitHub license](https://img.shields.io/github/license/IntelLabs/control-flag)](https://github.com/IntelLabs/control-flag/blob/master/LICENSE)
+
+
 # ControlFlag: A Self-supervised Idiosyncratic Pattern Detection System for Software Control Structures
 
 ControlFlag is a self-supervised idiosyncratic pattern detection system that
