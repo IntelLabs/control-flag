@@ -1,4 +1,4 @@
-name: cpplint
+name: style_check
 on: [push, pull_request]
 jobs:
   cpplint:
