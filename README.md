@@ -61,12 +61,10 @@ Verilog support is WIP.
 #### Using patterns obtained from 6000 GitHub repos to scan repository of your choice
 
 Download the training data for C language first
-([link](https://intel-my.sharepoint.com/:u:/p/niranjan_hasabnis/EQLfSmIfqkdCjCYejcmn248BD_4YK17u9Ygl-M_Cd_4Z3g?e=2AncAq)).
-You will need to be logged in with Intel account to download. If you get
-permission problem, please email [Niranjan Hasabnis](mailto:niranjan.hasabnis@intel.com?subject=[ControlFlag]%20GitHub%20repo).
+([link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing)).
 
 ```
-$ wget https://intel-my.sharepoint.com/:u:/p/niranjan_hasabnis/EQLfSmIfqkdCjCYejcmn248BD_4YK17u9Ygl-M_Cd_4Z3g?e=2AncAq
+$ wget https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing
 $ (optional) md5sum c_lang_if_stmts_6000_gitrepos.ts.tgz
 1ba954d9716765d44917445d3abf8e85
 $ tar -zxf c_lang_if_stmts_6000_gitrepos.ts.tgz
