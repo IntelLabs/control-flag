@@ -69,7 +69,7 @@ Download the training data for C language first
 ([link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing)).
 
 ```
-$ wget https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing
+$ python -m pip install gdown && gdown https://drive.google.com/uc?id=1-jzs3zrKU541hwChaciXSk8zrnMN1mYc
 $ (optional) md5sum c_lang_if_stmts_6000_gitrepos.ts.tgz
 1ba954d9716765d44917445d3abf8e85
 $ tar -zxf c_lang_if_stmts_6000_gitrepos.ts.tgz
@@ -78,7 +78,7 @@ $ tar -zxf c_lang_if_stmts_6000_gitrepos.ts.tgz
 To scan C code of your choice, use below command:
 
 ```
-$ scripts/scan_for_anomalies.sh -d <your_directory> -t c_lang_if_stmts_6000_gitrepos.ts -o <output_directory_to_store_log_files>
+$ scripts/scan_for_anomalies.sh -d <directory_to_be_scanned_for_anomalies> -t c_lang_if_stmts_6000_gitrepos.ts -o <output_directory_to_store_log_files>
 ```
 
 Once the run is complete (which could take some time depending on your system and the
