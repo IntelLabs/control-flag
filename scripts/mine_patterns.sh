@@ -1,17 +1,27 @@
 #!/bin/bash
 
 function print_usage() {
-  echo -n "Usage: $1 -d <directory_to_mine_patterns_from>" 
+  echo -n "Usage: $1 -d <directory_to_mine_patterns_from>"
   echo " -o <output_file_to_store_training_data>"
   echo "Optional:"
-  echo "[-n number_of_processes_to_use_for_mining]  (default: num_cpus_on_system)"
+  if ! command -v nproc &> /dev/null
+  then
+    echo "[-n number_of_processes_to_use_for_mining]  (default: 1)"
+  else
+    echo "[-n number_of_processes_to_use_for_mining]  (default: num_cpus_on_system)"
+  fi
   echo "[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog)"
 
   exit
 }
 
 # Default values
-NUM_MINER_PROCS=`nproc`
+if ! command -v nproc &> /dev/null
+then
+  NUM_MINER_PROCS=1
+else
+  NUM_MINER_PROCS=`nproc`
+fi
 LANGUAGE=1
 
 while getopts d:o:n:l: flag
@@ -35,7 +45,7 @@ if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 2 ));
 then
   echo "ERROR: Only 1 (C) and 2 (Verilog) are supported languages; received ${LANGUAGE}"
   print_usage $0
-fi 
+fi
 
 if [ -f "${OUTPUT_FILE}" ]
 then
@@ -43,7 +53,7 @@ then
   print_usage $0
 fi
 
-TMP_DIR=`mktemp -d -p /tmp`
+TMP_DIR=`mktemp -d`
 FILE_LIST=${TMP_DIR}/file_list.txt
 if [ "${LANGUAGE}" = "1" ];
 then

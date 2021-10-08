@@ -1,7 +1,8 @@
-[![build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/controlflag_cmake.yml)
-[![style_check](https://github.com/IntelLabs/control-flag/actions/workflows/controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/controlflag_cpplint.yml)
+[![linux_build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cmake.yml)
+[![linux_style_check](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cpplint.yml)
+[![macos_build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cmake.yml)
+[![macos_style_check](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cpplint.yml)
 [![GitHub license](https://img.shields.io/github/license/IntelLabs/control-flag)](https://github.com/IntelLabs/control-flag/blob/master/LICENSE)
-
 
 # ControlFlag: A Self-supervised Idiosyncratic Pattern Detection System for Software Control Structures
 
@@ -40,6 +41,8 @@ More details can be found in our MAPS paper (https://arxiv.org/abs/2011.03616).
 
 ## Install
 
+ControlFlag can be built on Linux and MacOS.
+
 #### Requirements
 
 - CMake 3.4.3 or above
@@ -47,6 +50,12 @@ More details can be found in our MAPS paper (https://arxiv.org/abs/2011.03616).
 - [Tree-sitter](https://github.com/tree-sitter/tree-sitter.git) parser (downloaded automatically as part of cmake)
 - [GNU parallel](https://www.gnu.org/software/parallel/) (optional, if you want
   to generate your own training data)
+
+**Tested build configuration on Linux-based systems**
+- CentOS-7.6/Ubuntu-20.04 with g++-v10.2.0 for x86\_64
+
+**Tested build configuration on MacOS**
+- MacOS Mojave v10.14.6 with clang-1001.0.46.4 (Apple LLVM version 10.0.1) for x86\_64 (obtained from The Command Line Tools Package)
 
 #### Build
 

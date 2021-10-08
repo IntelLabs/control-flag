@@ -6,7 +6,12 @@ function print_usage() {
   echo "Optional:"
   echo " [-c max_cost_for_autocorrect]              (default: 2)"
   echo " [-n max_number_of_results_for_autocorrect] (default: 5)"
-  echo " [-j number_of_scanning_threads]            (default: num_cpus_on_systems)"
+  if ! command -v nproc &> /dev/null
+  then
+    echo " [-j number_of_scanning_threads]            (default: 1)"
+  else
+    echo " [-j number_of_scanning_threads]            (default: num_cpus_on_systems)"
+  fi
   echo " [-o output_log_dir]                        (default: /tmp)"
   echo " [-a anomaly_threshold]                     (default: 3.0)"
   echo " [-l source_language_number]                (default: 1 (C), supported: 1 (C), 2 (Verilog)"
@@ -17,7 +22,12 @@ function print_usage() {
 OUTPUT_DIR="/tmp"
 MAX_AUTOCORRECT_COST=2
 MAX_AUTOCORRECT_RESULTS=5
-NUM_SCAN_THREADS=`nproc`
+if ! command -v nproc &> /dev/null
+then
+  NUM_SCAN_THREADS=1
+else
+  NUM_SCAN_THREADS=`nproc`
+fi
 ANOMALY_THRESHOLD=3
 LANGUAGE=1
 

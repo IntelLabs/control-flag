@@ -123,11 +123,6 @@ ManagedTSTree GetTSTree<LANGUAGE_C>(const std::string&, bool);
 template
 ManagedTSTree GetTSTree<LANGUAGE_VERILOG>(const std::string&, bool);
 template
-void CollectCodeBlocksOfInterest<LANGUAGE_C>(const TSNode &, code_blocks_t&);
-template
-void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const TSNode &,
-                                                   code_blocks_t&);
-template
 ManagedTSTree GetTSTree<LANGUAGE_C>(const std::string&, std::string&);
 template
 ManagedTSTree GetTSTree<LANGUAGE_VERILOG>(const std::string&, std::string&);
