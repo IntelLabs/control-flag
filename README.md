@@ -1,10 +1,8 @@
-build\_and\_test | style\_check
---------------------------------
-[![linux_build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cmake.yml) | [![linux_style_check](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cpplint.yml)
-[![macos_build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cmake.yml) | [![macos_style_check](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cpplint.yml)
-
+[![linux_build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cmake.yml)
+[![linux_style_check](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cpplint.yml)
+[![macos_build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cmake.yml)
+[![macos_style_check](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cpplint.yml)
 [![GitHub license](https://img.shields.io/github/license/IntelLabs/control-flag)](https://github.com/IntelLabs/control-flag/blob/master/LICENSE)
-
 
 # ControlFlag: A Self-supervised Idiosyncratic Pattern Detection System for Software Control Structures
 
