@@ -1,4 +1,4 @@
-name: style_check
+name: linux_style_check
 on: [push, pull_request]
 jobs:
   cpplint:
