@@ -1,3 +1,5 @@
+**A gentle NOTE: Thanks for visiting control-flag GitHub repo. If you find control-flag useful, we would appreciate a note from you (to niranjan.hasabnis@intel.com or justin.gottschlich@intel.com). And, of course, we love testimonies!** 😄
+
 [![linux_build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cmake.yml)
 [![linux_style_check](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cpplint.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/linux_controlflag_cpplint.yml)
 [![macos_build_and_test](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cmake.yml/badge.svg)](https://github.com/IntelLabs/control-flag/actions/workflows/macos_controlflag_cmake.yml)
