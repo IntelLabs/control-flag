@@ -68,7 +68,7 @@ NearestExpressions Trie::SearchNearestExpressions(const NearestExpression::Expre
     nearest_expressions.push_back(NearestExpression(long_expression,
        short_nearest_expression.GetCost(), short_nearest_expression.GetNumOccurrences()));
   }
-  
+
   return nearest_expressions;
 }
 
@@ -109,7 +109,7 @@ void Trie::GenerateExpressionCombinationsUsingDelete(const NearestExpression::Ex
 
   for (current_cost = 1; current_cost <= max_cost; ++current_cost)
   {
-    for (const auto& expression_n_minus_1 : combinations) 
+    for (const auto& expression_n_minus_1 : combinations)
     {
       if (expression_n_minus_1.second == current_cost - 1)
         perform_deletes_for_distance_one(expression_n_minus_1.first,
@@ -129,13 +129,13 @@ NearestExpressions Trie::SearchNearestExpressionUsingSymmetricDelete(
   GenerateExpressionCombinationsUsingDelete(target, max_cost,
       target_combinations_with_delete);
 
-  for (const auto& combination : target_combinations_with_delete) 
+  for (const auto& combination : target_combinations_with_delete)
   {
     const auto it = symmetric_delete_trie_combinations_.find(combination.first);
-     
+
     if (it != symmetric_delete_trie_combinations_.end()) 
     {
-      for (const auto& line_no : it->second) 
+      for (const auto& line_no : it->second)
       {
         std::string expression = "";
         result.push_back(NearestExpression(expression, combination.second));
@@ -162,7 +162,7 @@ NearestExpressions Trie::SearchNearestExpressionsUsingCandidateGeneration(
 {
   NearestExpressions result;
   NearestExpressionSet nearest_expressions;
-    
+
   GenerateCandidateExpressions(target, max_cost, nearest_expressions);
     
   for (const auto& nearest_expression : nearest_expressions)
@@ -223,7 +223,7 @@ void Trie::GenerateCandidateExpressions(const NearestExpression::Expression& tar
   // edit distance.
   NearestExpression::Cost current_cost = 0;
   result.insert(NearestExpression(target, current_cost));
-    
+
   for (current_cost = 1; current_cost <= max_cost; ++current_cost)
   {
     for (const auto& expression_n_minus_1 : result)
@@ -252,7 +252,7 @@ NearestExpressions Trie::SearchNearestExpressionsUsingTrieTraversal(
   std::atomic<size_t> path_index(0);
   NearestExpressions nearest_expressions;
   std::shared_mutex mutex;
-  
+
   auto calculate_edit_distance_fn = [&]()
   {
     while (path_index.load() < all_trie_paths.size())
@@ -263,7 +263,7 @@ NearestExpressions Trie::SearchNearestExpressionsUsingTrieTraversal(
       size_t num_occurrences = path_occurrences.second;
 
       NearestExpression::Cost current_cost = CalculateEditDistance(trie_path, target);
-      
+
       if (current_cost <= max_cost)
       {
         std::unique_lock lock(mutex);
@@ -285,7 +285,7 @@ NearestExpressions Trie::SearchNearestExpressionsUsingTrieTraversal(
     edit_distance_calculator_threads.push_back(std::thread(
                                                 calculate_edit_distance_fn));
   }
-  
+
   for (auto& calculator_thread : edit_distance_calculator_threads)
   {
     calculator_thread.join();
@@ -312,7 +312,7 @@ NearestExpression::Cost Trie::CalculateEditDistance(const std::string& source,
   // edit distances for next row.
   auto previous_row = current_row;
   size_t num_chars_read = 1;
-    
+
   for (const char& source_char : source)
   {
     current_row[0] = num_chars_read++;
@@ -332,18 +332,17 @@ NearestExpression::Cost Trie::CalculateEditDistance(const std::string& source,
     for (size_t i = 1; i < target.length() + 1; ++i)
     {
       NearestExpression::Cost substitution_cost = kNoEditCost;
-        
+
       if (source_char != target[i - 1]) substitution_cost = kReplaceCost;
 
       current_row[i] = min_of_3(current_row[i - 1] + kInsertCost,
                                 previous_row[i] + kDeleteCost,
                                 previous_row[i - 1] + substitution_cost);
     }
-      
+
     previous_row = current_row;
-      
+
   }
 
   return current_row[target.length()];
 }
-
