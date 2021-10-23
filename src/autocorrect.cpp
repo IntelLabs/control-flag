@@ -23,7 +23,7 @@
 #include "trie.h"
 
 NearestExpressions Trie::SearchNearestExpressions(const NearestExpression::Expression& expression,
-   NearestExpression::Cost max_cost, size_t max_threads) const 
+   NearestExpression::Cost max_cost, size_t max_threads) const
 {
   // search approach type
   enum SearchNearestExpressionAlgorithm 
@@ -37,7 +37,7 @@ NearestExpressions Trie::SearchNearestExpressions(const NearestExpression::Expre
   NearestExpressions short_nearest_expressions;
 
   // pivot based on type of search algorithm
-  switch (algorithm) 
+  switch (algorithm)
   {
     case TRIE_TRAVERSAL:
       short_nearest_expressions = SearchNearestExpressionsUsingTrieTraversal(
@@ -57,8 +57,8 @@ NearestExpressions Trie::SearchNearestExpressions(const NearestExpression::Expre
 
   // Let's expand shortened expressions
   NearestExpressions nearest_expressions;
-    
-  for (auto short_nearest_expression : short_nearest_expressions) 
+
+  for (auto short_nearest_expression : short_nearest_expressions)
   {
     // @niranjan - should we pull this string outside of the for to optimize
     //             string construction / allocation? implement later
@@ -81,14 +81,14 @@ NearestExpressions Trie::SearchNearestExpressions(const NearestExpression::Expre
 // https://medium.com/@wolfgarbe/1000x-faster-spelling-correction-algorithm-2012-8701fcd87a5f
 
 void Trie::GenerateExpressionCombinationsUsingDelete(const NearestExpression::Expression& target,
-   NearestExpression::Cost max_cost, ExpressionCombinationsAtCost& combinations) const 
+   NearestExpression::Cost max_cost, ExpressionCombinationsAtCost& combinations) const
 {
   // Using unordered_map to handle duplicate keys.
   auto perform_deletes_for_distance_one = [&](
       const NearestExpression::Expression& expression,
       NearestExpression::Cost current_cost) 
   {
-    for (size_t i = 0; i < expression.size(); ++i) 
+    for (size_t i = 0; i < expression.size(); ++i)
     {
       // O(N) deletions
       NearestExpression::Expression expression_with_char_delete = expression;
@@ -107,7 +107,7 @@ void Trie::GenerateExpressionCombinationsUsingDelete(const NearestExpression::Ex
   NearestExpression::Cost current_cost = 0;
   combinations[target] = current_cost;
 
-  for (current_cost = 1; current_cost <= max_cost; ++current_cost) 
+  for (current_cost = 1; current_cost <= max_cost; ++current_cost)
   {
     for (const auto& expression_n_minus_1 : combinations) 
     {
@@ -119,7 +119,7 @@ void Trie::GenerateExpressionCombinationsUsingDelete(const NearestExpression::Ex
 }
 
 NearestExpressions Trie::SearchNearestExpressionUsingSymmetricDelete(
-    const NearestExpression::Expression& target, NearestExpression::Cost max_cost) const 
+    const NearestExpression::Expression& target, NearestExpression::Cost max_cost) const
 {
   NearestExpressions result;
 
@@ -129,17 +129,19 @@ NearestExpressions Trie::SearchNearestExpressionUsingSymmetricDelete(
   GenerateExpressionCombinationsUsingDelete(target, max_cost,
       target_combinations_with_delete);
 
-  for (const auto& combination : target_combinations_with_delete) {
+  for (const auto& combination : target_combinations_with_delete) 
+  {
     const auto it = symmetric_delete_trie_combinations_.find(combination.first);
-    if (it != symmetric_delete_trie_combinations_.end()) {
-      for (const auto& line_no : it->second) {
+     
+    if (it != symmetric_delete_trie_combinations_.end()) 
+    {
+      for (const auto& line_no : it->second) 
+      {
         std::string expression = "";
         result.push_back(NearestExpression(expression, combination.second));
 
-        std::cout << "Found combination: " << combination.first
-                  << " at cost:" << combination.second
-                  << " line no: " << line_no
-                  << std::endl;
+        std::cout << "Found combination: " << combination.first << " at cost:" 
+                  << combination.second << " line no: " << line_no << std::endl;
       }
     }
   }
@@ -147,7 +149,6 @@ NearestExpressions Trie::SearchNearestExpressionUsingSymmetricDelete(
 }
 
 // ---------------------------------------------------------------------------
-
 // Peter Norvig algorithm to generate corrections of possible mis-spelled
 // expression. The algorithm generates a set of expressions that are 1, 2.. N
 // distances away from target expression and then filters out invalid
@@ -155,15 +156,16 @@ NearestExpressions Trie::SearchNearestExpressionUsingSymmetricDelete(
 //
 // Algorithm performs in O(N) time, where N is length of the target expression.
 // Algorithm performance does not depend on size of trie/dictionary.
+// ---------------------------------------------------------------------------
 NearestExpressions Trie::SearchNearestExpressionsUsingCandidateGeneration(
-    const NearestExpression::Expression& target, NearestExpression::Cost max_cost) const 
+    const NearestExpression::Expression& target, NearestExpression::Cost max_cost) const
 {
   NearestExpressions result;
   NearestExpressionSet nearest_expressions;
     
   GenerateCandidateExpressions(target, max_cost, nearest_expressions);
     
-  for (const auto& nearest_expression : nearest_expressions) 
+  for (const auto& nearest_expression : nearest_expressions)
   {
     // If edited expression is a valid expression then keep it.
     auto expression = nearest_expression.GetExpression();
@@ -180,7 +182,7 @@ NearestExpressions Trie::SearchNearestExpressionsUsingCandidateGeneration(
 }
 
 void Trie::GenerateCandidateExpressions(const NearestExpression::Expression& target,
-   NearestExpression::Cost max_cost, NearestExpressionSet& result) const 
+   NearestExpression::Cost max_cost, NearestExpressionSet& result) const
 {
   // Using set instead of vector to filter out duplicate edits.
 
@@ -188,7 +190,7 @@ void Trie::GenerateCandidateExpressions(const NearestExpression::Expression& tar
       const NearestExpression::Expression& expression,
       NearestExpression::Cost current_cost) 
   {
-    for (size_t i = 0; i < expression.size(); ++i) 
+    for (size_t i = 0; i < expression.size(); ++i)
     {
       for (const auto& c : alphabets_) 
       { /* O(N) replacements */
@@ -199,7 +201,7 @@ void Trie::GenerateCandidateExpressions(const NearestExpression::Expression& tar
                                         current_cost));
       }
 
-      for (const auto& c : alphabets_) 
+      for (const auto& c : alphabets_)
       { /* O(N+1) insertions */
         NearestExpression::Expression expression_with_char_insert = expression;
         // Insert - Insert a character leading to 1-edit distance.
@@ -222,9 +224,9 @@ void Trie::GenerateCandidateExpressions(const NearestExpression::Expression& tar
   NearestExpression::Cost current_cost = 0;
   result.insert(NearestExpression(target, current_cost));
     
-  for (current_cost = 1; current_cost <= max_cost; ++current_cost) 
+  for (current_cost = 1; current_cost <= max_cost; ++current_cost)
   {
-    for (const auto& expression_n_minus_1 : result) 
+    for (const auto& expression_n_minus_1 : result)
     {
       if (expression_n_minus_1.GetCost() == current_cost - 1)
         perform_edits_for_distance_one(expression_n_minus_1.GetExpression(),
@@ -251,9 +253,9 @@ NearestExpressions Trie::SearchNearestExpressionsUsingTrieTraversal(
   NearestExpressions nearest_expressions;
   std::shared_mutex mutex;
   
-  auto calculate_edit_distance_fn = [&]() 
+  auto calculate_edit_distance_fn = [&]()
   {
-    while (path_index.load() < all_trie_paths.size()) 
+    while (path_index.load() < all_trie_paths.size())
     {
       const auto& path_occurrences = all_trie_paths[path_index.load()];
       path_index++;
@@ -262,7 +264,7 @@ NearestExpressions Trie::SearchNearestExpressionsUsingTrieTraversal(
 
       NearestExpression::Cost current_cost = CalculateEditDistance(trie_path, target);
       
-      if (current_cost <= max_cost) 
+      if (current_cost <= max_cost)
       {
         std::unique_lock lock(mutex);
         nearest_expressions.push_back(NearestExpression(trie_path,
@@ -278,13 +280,13 @@ NearestExpressions Trie::SearchNearestExpressionsUsingTrieTraversal(
   // performs parallel autocorrect.
   size_t sqrt_max_threads = static_cast<size_t>(sqrtf(static_cast<float>(max_threads)));
 
-  for (size_t i = 0; i < sqrt_max_threads; ++i) 
+  for (size_t i = 0; i < sqrt_max_threads; ++i)
   {
     edit_distance_calculator_threads.push_back(std::thread(
                                                 calculate_edit_distance_fn));
   }
   
-  for (auto& calculator_thread : edit_distance_calculator_threads) 
+  for (auto& calculator_thread : edit_distance_calculator_threads)
   {
     calculator_thread.join();
   }
@@ -294,7 +296,7 @@ NearestExpressions Trie::SearchNearestExpressionsUsingTrieTraversal(
 
 // Calculate edit distance between source and target expressions.
 NearestExpression::Cost Trie::CalculateEditDistance(const std::string& source,
-    const std::string& target) const 
+    const std::string& target) const
 {
   // Edit distance is calculated by using (M+1)*(N+1) table, where M is length
   // of source and N is length of target. We don't need to allocate
@@ -311,7 +313,7 @@ NearestExpression::Cost Trie::CalculateEditDistance(const std::string& source,
   auto previous_row = current_row;
   size_t num_chars_read = 1;
     
-  for (const char& source_char : source) 
+  for (const char& source_char : source)
   {
     current_row[0] = num_chars_read++;
 
@@ -327,7 +329,7 @@ NearestExpression::Cost Trie::CalculateEditDistance(const std::string& source,
       return std::min(std::min(a, b), c);
     };
 
-    for (size_t i = 1; i < target.length() + 1; i++) 
+    for (size_t i = 1; i < target.length() + 1; ++i)
     {
       NearestExpression::Cost substitution_cost = kNoEditCost;
         
