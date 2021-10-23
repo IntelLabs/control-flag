@@ -64,7 +64,7 @@ ControlFlag can be built on Linux and MacOS.
 #### Build
 
 ```
-$ cd controlflag
+$ cd control-flag
 $ cmake .
 $ make -j
 $ make test
