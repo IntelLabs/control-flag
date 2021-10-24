@@ -1,4 +1,4 @@
-**A friendly request: Thanks for visiting control-flag GitHub repository! If you find control-flag useful, we would appreciate a note from you (to niranjan.hasabnis@intel.com or justin.gottschlich@intel.com). And, of course, we love testimonials!
+**A friendly request: Thanks for visiting control-flag GitHub repository! If you find control-flag useful, we would appreciate a note from you (to niranjan.hasabnis@intel.com or justin.gottschlich@intel.com). And, of course, we love testimonials!**
 
 -- The ControlFlag Team 
 
@@ -78,20 +78,24 @@ Verilog support is WIP.
 
 #### Using patterns obtained from 6000 GitHub repos to scan repository of your choice
 
-Download the training data for C language first
-([link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing)).
+Download the training data for C language depending on the memory constraints of your device. Note, however, that using smaller datasets may lead to lower accuracy in results.
+
+Dataset name | Size on disk | Memory requirements | Direct link | gdown ID | MD5 checksum
+-------------|--------------|---------------------|-------------|----------|-------------
+Small        | ~100MB       | ~400MB              | [link](https://drive.google.com/file/d/1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb/view?usp=sharing) | 1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb | 2825f209aba0430993f7a21e74d99889
+Medium       |   ~450MB     | ~1.3GB           | [link](https://drive.google.com/file/d/1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3/view?usp=sharing) | 1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3 | aab2427edebe9ed4acab75c3c6227f24
+Large        |   ~9GB       | ~13GB           | [link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing) | 1-jzs3zrKU541hwChaciXSk8zrnMN1mYc | 1ba954d9716765d44917445d3abf8e85
 
 ```
-$ python -m pip install gdown && gdown https://drive.google.com/uc?id=1-jzs3zrKU541hwChaciXSk8zrnMN1mYc
-$ (optional) md5sum c_lang_if_stmts_6000_gitrepos.ts.tgz
-1ba954d9716765d44917445d3abf8e85
-$ tar -zxf c_lang_if_stmts_6000_gitrepos.ts.tgz
+$ python -m pip install gdown && gdown https://drive.google.com/uc?id=<id_from_table>
+$ (optional) md5sum <tgz_file>
+$ tar -zxf <tgz_file>
 ```
 
 To scan C code of your choice, use below command:
 
 ```
-$ scripts/scan_for_anomalies.sh -d <directory_to_be_scanned_for_anomalies> -t c_lang_if_stmts_6000_gitrepos.ts -o <output_directory_to_store_log_files>
+$ scripts/scan_for_anomalies.sh -d <directory_to_be_scanned_for_anomalies> -t <training_data>.ts -o <output_directory_to_store_log_files>
 ```
 
 Once the run is complete (which could take some time depending on your system and the
