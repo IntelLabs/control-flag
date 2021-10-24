@@ -78,7 +78,7 @@ Verilog support is WIP.
 
 #### Using patterns obtained from 6000 GitHub repos to scan repository of your choice
 
-Download the training data for C language depending on the memory constraints of your device. Note, however, that using smaller datasets may lead to lower accuracy in results.
+Download the training data for C language depending on the memory constraints of your device. Note, however, that using smaller datasets may lead to reduced accuracy in the results ControlFlag produces and possibly an increase in the number of false positives it generates.
 
 Dataset name | Size on disk | Memory requirements | Direct link | gdown ID | MD5 checksum
 -------------|--------------|---------------------|-------------|----------|-------------
