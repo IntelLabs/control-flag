@@ -67,7 +67,7 @@ fi
 SCAN_FILE_LIST=`mktemp`
 if [ "${LANGUAGE}" = "1" ];
 then
-  find "${SCAN_DIR}" -iname "*.c" -o -iname "*.h" -type f > ${SCAN_FILE_LIST}
+  find "${SCAN_DIR}" -iname "*.c" -o -iname "*.h" -iname "*.hpp" -type f > ${SCAN_FILE_LIST}
 else
   find "${SCAN_DIR}" -iname "*.v" -o -iname "*.vh" -type f > ${SCAN_FILE_LIST}
 fi
