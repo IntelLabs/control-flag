@@ -142,15 +142,15 @@ statements that appear in C programs.*
 
 If you want to use your own repository for mining patterns, jump to Step 1.2.
 
-1.1 __Downloading Top-100 GitHub repos for C language__
+1.1 __Downloading Top-1000 GitHub repos for C language__
 
-Steps below show how to download Top-100 GitHub repos for C language
-(`c100.txt`) and generate training data. `training_repo_dir` is a directory
+Steps below show how to download Top-1000 GitHub repos for C language
+(`c1000.txt`) and generate training data. `training_repo_dir` is a directory
 where the command below will clone all the repos.
 
 ```
 $ cd github
-$ python download_repos.py -f c100.txt -o <training_repo_dir> -m clone -p 5
+$ python download_repos.py -f c1000.txt -o <training_repo_dir> -m clone -p 5
 ```
 
 1.2 __Mining patterns from downloaded repositories__
