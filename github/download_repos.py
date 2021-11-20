@@ -24,7 +24,7 @@ def clone_repo(args):
     url, output_dir = args
     org, repo = url.split('/')[-2:]
     clone_dir = os.path.join(output_dir, org, repo)
-    clone_template = 'git clone -q --depth 1 {url} {clone_dir}'
+    clone_template = 'git clone -c core.askPass=echo -q --depth 1 {url} {clone_dir}'
     if os.system(clone_template.format(url=url, clone_dir=clone_dir)) != 0:
         return url
     return None
