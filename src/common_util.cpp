@@ -35,7 +35,7 @@ ManagedTSTree GetTSTree(const std::string& source_code,
 
   TSTree *tree = ts_parser_parse_string(parser, nullptr,
                                         source_code.c_str(),
-                                        source_code.length());
+                                        (uint32_t)source_code.length());
   parser_base.ResetTSParser();
   if (report_parse_errors && tree == NULL) {
     throw cf_parse_error(source_code);

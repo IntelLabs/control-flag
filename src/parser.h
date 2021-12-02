@@ -150,7 +150,7 @@ template <>
 inline TSNode GetIfConditionNode<LANGUAGE_C>(const TSNode& if_statement) {
   const std::string& kIfCondition = "condition";
   return ts_node_child_by_field_name(if_statement,
-                      kIfCondition.c_str(), kIfCondition.length());
+                      kIfCondition.c_str(), (uint32_t)kIfCondition.length());
 }
 template <>
 inline TSNode GetIfConditionNode<LANGUAGE_VERILOG>(const TSNode& if_statement) {

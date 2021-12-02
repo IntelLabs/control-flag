@@ -1,0 +1,15 @@
+.vs
+CMake*
+*.cmake
+*.tcl
+Makefile
+*.ts*
+bin
+lib
+out
+/Testing/
+*.vcxproj.*
+*Test.log
+/github/c100
+/quick_start/brubeck
+/quick_start/glb-director

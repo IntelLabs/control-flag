@@ -271,7 +271,7 @@ inline std::string OriginalSourceExpression(
 inline std::string OpToString(const TSNode& node) {
   const std::string& operator_str = "operator";
   TSNode op = ts_node_child_by_field_name(node, operator_str.c_str(),
-                                          operator_str.length());
+                                          (uint32_t)operator_str.length());
 
   char* node_string = ts_node_string(op);
   std::string orig_op_string = node_string;

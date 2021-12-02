@@ -74,7 +74,7 @@ static int handle_command_args(int argc, char* argv[], FileScannerArgs& args) {
                   std::max(0, atoi(optarg)); break;
       case 'j': args.scan_config_.num_threads_ = std::max(1, atoi(optarg));
                 break;
-      case 'a': args.scan_config_.anomaly_threshold_ = atof(optarg); break;
+      case 'a': args.scan_config_.anomaly_threshold_ = (float)atof(optarg); break;
       case 'v': if (atoi(optarg) >= TrainAndScanUtil::LogLevel::MIN &&
                     atoi(optarg) <= TrainAndScanUtil::LogLevel::MAX) {
                   args.scan_config_.log_level_ =
