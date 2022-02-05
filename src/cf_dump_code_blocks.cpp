@@ -93,7 +93,7 @@ int handle_command_args(int argc, char* argv[], CFDumpArgs& command_args) {
                 << std::endl
                 << "  [-l source_language_number]   (default: "
                 << LANGUAGE_C << ")"
-                << ", supported: 1 (C), 2 (Verilog)"
+                << ", supported: 1 (C), 2 (Verilog), 3 (PHP)"
                 << std::endl;
   };
 
@@ -133,6 +133,9 @@ int main(int argc, char* argv[]) {
         break;
       case LANGUAGE_VERILOG:
         DumpCodeBlocksFromSourceFile<LANGUAGE_VERILOG>(command_args);
+        break;
+      case LANGUAGE_PHP:
+        DumpCodeBlocksFromSourceFile<LANGUAGE_PHP>(command_args);
         break;
       default:
         throw cf_unexpected_situation("Unsupported language:" +

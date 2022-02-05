@@ -10,7 +10,7 @@ function print_usage() {
   else
     echo "[-n number_of_processes_to_use_for_mining]  (default: num_cpus_on_system)"
   fi
-  echo "[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog)"
+  echo "[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP)"
 
   exit
 }
@@ -41,7 +41,7 @@ then
   print_usage $0
 fi
 
-if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 2 ));
+if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 3 ));
 then
   echo "ERROR: Only 1 (C) and 2 (Verilog) are supported languages; received ${LANGUAGE}"
   print_usage $0
@@ -58,6 +58,9 @@ FILE_LIST=${TMP_DIR}/file_list.txt
 if [ "${LANGUAGE}" = "1" ];
 then
   find "${TRAIN_DIR}" -iname "*.c" -o -iname "*.h" -type f > ${FILE_LIST}
+elif [ "${LANGUAGE}" = "3" ];
+then
+  find "${TRAIN_DIR}" -iname "*.php" -type f | fgrep -v "/vendor/" > ${FILE_LIST}
 else
   find "${TRAIN_DIR}" -iname "*.v" -o -iname "*.vh" -type f > ${FILE_LIST}
 fi
