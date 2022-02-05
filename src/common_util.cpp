@@ -111,6 +111,26 @@ void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const TSNode& node,
   }
 }
 
+// For PHP language, we are looking for control structures such as if statements.
+template <>
+void CollectCodeBlocksOfInterest<LANGUAGE_PHP>(const TSNode& node,
+    code_blocks_t& code_blocks) {
+  if (ts_node_is_null(node)) { return; }
+
+  uint32_t count = ts_node_child_count(node);
+  for (uint32_t i = 0; i < count; i++) {
+    auto child = ts_node_child(node, i);
+    if (ts_node_is_null(child)) continue;
+    if (IsIfStatement<LANGUAGE_PHP>(child)) {
+      auto if_condition = GetIfConditionNode<LANGUAGE_PHP>(child);
+      if (!ts_node_has_error(if_condition)) {
+        code_blocks.push_back(if_condition);
+      }
+    }
+    CollectCodeBlocksOfInterest<LANGUAGE_PHP>(child, code_blocks);
+  }
+}
+
 template <Language L>
 void CollectCodeBlocksOfInterest(const ManagedTSTree& tree,
     code_blocks_t& code_blocks) {
@@ -135,4 +155,7 @@ void CollectCodeBlocksOfInterest<LANGUAGE_C>(const ManagedTSTree&,
                                              code_blocks_t&);
 template
 void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const ManagedTSTree &,
+                                                   code_blocks_t&);
+template
+void CollectCodeBlocksOfInterest<LANGUAGE_PHP>(const ManagedTSTree &,
                                                    code_blocks_t&);

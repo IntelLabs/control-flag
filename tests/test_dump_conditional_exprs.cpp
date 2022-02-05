@@ -128,6 +128,45 @@ TestResult Test6() {
     " return x;\n"\
     "}", kExpectedCodeBlocks);
 }
+
+// Positive test for PHP language with 1 expression
+TestResult Test7() {
+  const size_t kExpectedCodeBlocks = 1;
+  return ParseStringWithTSParser<LANGUAGE_PHP>(
+    "<?php\n"\
+    "\n"\
+    "function foo() {\n"\
+    " $x=0;\n" \
+    " if ($x > 0) $x++;\n" \
+    " return $x;\n"\
+    "}", kExpectedCodeBlocks);
+}
+
+// Positive test for PHP language with 2 expression
+TestResult Test8() {
+  const size_t kExpectedCodeBlocks = 2;
+  return ParseStringWithTSParser<LANGUAGE_PHP>(
+    "<?php\n"\
+    "\n"\
+    "function foo() {\n"\
+    " $x=0;\n" \
+    " if ($x > 0) $x++;\n" \
+    " if ($x < 0) $x*=2;\n" \
+    " return $x;\n"\
+    "}", kExpectedCodeBlocks);
+}
+
+// Positive test for PHP language with 0 expression
+TestResult Test9() {
+  const size_t kExpectedCodeBlocks = 0;
+  return ParseStringWithTSParser<LANGUAGE_PHP>(
+    "<?php\n"\
+    "\n"\
+    "function foo() {\n"\
+    " return $x;\n"\
+    "}", kExpectedCodeBlocks);
+}
+
 }  // anonymous namespace
 
 int main(int argc, char* argv[]) {
@@ -139,6 +178,9 @@ int main(int argc, char* argv[]) {
     case 4: ReportTestResult(Test4()); break;
     case 5: ReportTestResult(Test5()); break;
     case 6: ReportTestResult(Test6()); break;
+    case 7: ReportTestResult(Test7()); break;
+    case 8: ReportTestResult(Test8()); break;
+    case 9: ReportTestResult(Test9()); break;
     default: assert(1 == 0);
   }
   return 0;

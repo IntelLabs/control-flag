@@ -29,7 +29,7 @@ set (test_php_parser_parts 1 2 3 4)
 #set (test_verilog_parser_parts 1 2 3 4)
 set (test_expression_compactor_parts 1 2 3 4 5 6 7)
 #set (test_dump_conditional_exprs_parts 1 2 3 4 5 6)
-set (test_dump_conditional_exprs_parts 4 5 6)
+set (test_dump_conditional_exprs_parts 4 5 6 7 8 9)
 set (test_trie_parts 1 2 3 4 5 6)
 
 file(GLOB files "test_*.cpp")
