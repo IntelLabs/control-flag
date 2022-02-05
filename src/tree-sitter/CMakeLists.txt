@@ -25,3 +25,13 @@ target_include_directories(tree-sitter-verilog
   PRIVATE
   tree-sitter-verilog/src
 )
+
+add_library(tree-sitter-php STATIC
+  tree-sitter-php/src/scanner.cc
+  tree-sitter-php/src/parser.c
+)
+
+target_include_directories(tree-sitter-php
+  PRIVATE
+  tree-sitter-php/src
+)

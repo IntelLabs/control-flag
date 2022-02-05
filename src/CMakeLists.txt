@@ -26,6 +26,7 @@ set(COMMON_LINK_LIBRARIES
   cf_base
   tree-sitter
   tree-sitter-c
+  tree-sitter-php
   tree-sitter-verilog
   pthread
 )

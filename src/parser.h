@@ -30,14 +30,17 @@
 
 extern "C" const TSLanguage *tree_sitter_c();
 extern "C" const TSLanguage *tree_sitter_verilog();
+extern "C" const TSLanguage *tree_sitter_php();
 
-enum Language {
+enum Language
+{
   LANGUAGE_C = 1,
-  LANGUAGE_VERILOG = 2
+  LANGUAGE_VERILOG = 2,
+  LANGUAGE_PHP = 3
 };
 
 #define LANGUAGE_MIN LANGUAGE_C
-#define LANGUAGE_MAX LANGUAGE_VERILOG
+#define LANGUAGE_MAX LANGUAGE_PHP
 
 inline Language VerifyLanguage(int language) {
   if (language < LANGUAGE_MIN)
@@ -55,6 +58,9 @@ template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_C> () {
 }
 template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_VERILOG> () {
   return tree_sitter_verilog();
+}
+template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_PHP> () {
+  return tree_sitter_php();
 }
 
 template<Language L>
