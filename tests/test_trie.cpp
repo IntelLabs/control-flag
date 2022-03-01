@@ -96,6 +96,7 @@ TestResult Test4() {
     "0,AST_expression_ONE:(ifstmt (\">\")(var (x))(var (y)))\n" \
     "//if (x != y)\n" \
     "0,AST_expression_ONE:(ifstmt (\"!=\")(var (x))(var (y)))\n" \
+    "//this line is quite long and that's the way it likes it,\n" \
     , trie) == TEST_FAILURE)
     return TEST_FAILURE;
 
