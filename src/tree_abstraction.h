@@ -86,8 +86,8 @@ class ExpressionCompacter {
   // Singleton - we want to have a common shortening scheme across training and
   // multi-threaded inference.
   static ExpressionCompacter& Get() {
-    static ExpressionCompacter shortner;
-    return shortner;
+    static ExpressionCompacter shortener;
+    return shortener;
   }
 
  private:
