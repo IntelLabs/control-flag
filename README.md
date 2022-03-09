@@ -1,4 +1,4 @@
-**A friendly request: Thanks for visiting control-flag GitHub repository! If you find control-flag useful, we would appreciate a note from you (to niranjan.hasabnis@intel.com or justin.gottschlich@intel.com). And, of course, we love testimonials!**
+**A friendly request: Thanks for visiting control-flag GitHub repository! If you find control-flag useful, we would appreciate a note from you (to niranjan.hasabnis@intel.com). And, of course, we love testimonials!**
 
 -- The ControlFlag Team 
 
