@@ -23,7 +23,7 @@
 
 void Trie::SortAndRankResults(NearestExpressions& nearest_expressions) const {
   // We have N results, where each result contains a cost and number of
-  // occurrences. We will now rank these results on their likelyhood of
+  // occurrences. We will now rank these results on their likelihood of
   // suggesting correct change.
 
   auto sort_expressions_by_score = [](const NearestExpression& e1,

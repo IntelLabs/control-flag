@@ -86,8 +86,8 @@ class ExpressionCompacter {
   // Singleton - we want to have a common shortening scheme across training and
   // multi-threaded inference.
   static ExpressionCompacter& Get() {
-    static ExpressionCompacter shortner;
-    return shortner;
+    static ExpressionCompacter shortener;
+    return shortener;
   }
 
  private:
@@ -347,7 +347,7 @@ inline std::string NodeToString<LEVEL_TWO, LANGUAGE_C>(
     ret += ")";
   } else {
     throw cf_unexpected_situation(
-      "Expecting paranthesized_expression at top-level, found:" +
+      "Expecting parenthesized_expression at top-level, found:" +
       std::string(ts_node_string(conditional_expression)));
   }
 
