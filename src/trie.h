@@ -131,6 +131,8 @@ class Trie {
 
       comma_pos = line.find_first_of(",");
       if (comma_pos == std::string::npos) return false;
+      if (line.length() < comma_pos + ast_expression_pattern.length())
+        return false;
 
       for (size_t i = 0; i < ast_expression_pattern.length(); i++)
         if (line[comma_pos + 1 + i] != ast_expression_pattern[i])
