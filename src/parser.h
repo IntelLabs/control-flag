@@ -62,7 +62,7 @@ class ParserBase {
  public:
   ParserBase() {
     parser_ = ts_parser_new();
-    // set_language API call can fail if tree-sitter libarary version is
+    // set_language API call can fail if tree-sitter library version is
     // different than its language support.
     bool ret = ts_parser_set_language(parser_, GetTSLanguage<L>());
     assert(ret == true);

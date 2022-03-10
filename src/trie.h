@@ -168,7 +168,7 @@ class Trie {
               float& confidence) const;
 
   void Print(bool sorted = false) const;
-  void PrintEditDistancesinTrainingSet() const;
+  void PrintEditDistancesInTrainingSet() const;
 
   // Find expressions that are "nearest" to the input expression within the
   // specified cost.

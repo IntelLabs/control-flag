@@ -1,5 +1,5 @@
 name: linux_style_check
-on: [push, pull_request]
+on: [push, workflow_dispatch, pull_request]
 jobs:
   cpplint:
     runs-on: ubuntu-latest
