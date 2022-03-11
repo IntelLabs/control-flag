@@ -104,7 +104,7 @@ void CollectCodeBlocksOfInterest(const ManagedTSTree& tree,
                                  code_blocks_t& code_blocks);
 
 //----------------------------------------------------------------------------
-// A simple microsec precisoon timer for profiling
+// A simple microsec precision timer for profiling
 
 class Timer {
  public:

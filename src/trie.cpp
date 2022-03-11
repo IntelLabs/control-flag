@@ -157,7 +157,7 @@ void Trie::Print(bool sorted) const {
   }
 }
 
-void Trie::PrintEditDistancesinTrainingSet() const {
+void Trie::PrintEditDistancesInTrainingSet() const {
   VisitAllLeafNodes([&](const std::string& path_string, size_t num_occurrences,
                         const PatternContributorsMap& pattern_contributors) {
     const NearestExpression::Cost kMaxEditDistance = 3;

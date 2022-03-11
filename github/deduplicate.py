@@ -6,7 +6,7 @@ import itertools
 import hashlib
 
 
-extesions = {
+extensions = {
     'java': {'java'},
     'c': {'c'},
     'cpp': {'cpp', 'cxx', 'cc'},
@@ -16,7 +16,7 @@ extesions = {
 
 
 def is_src_in_language(file_name: str, language):
-    return file_name[file_name.rfind('.')+1:] in extesions[language]
+    return file_name[file_name.rfind('.')+1:] in extensions[language]
 
 
 def compute_hash(src_list, root):
