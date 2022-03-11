@@ -43,7 +43,7 @@ fi
 
 if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 3 ));
 then
-  echo "ERROR: Only 1 (C) and 2 (Verilog) are supported languages; received ${LANGUAGE}"
+  echo "ERROR: Only 1 (C), 2 (Verilog) and 3 (PHP) are supported languages; received ${LANGUAGE}"
   print_usage $0
 fi
 

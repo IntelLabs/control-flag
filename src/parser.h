@@ -32,8 +32,7 @@ extern "C" const TSLanguage *tree_sitter_c();
 extern "C" const TSLanguage *tree_sitter_verilog();
 extern "C" const TSLanguage *tree_sitter_php();
 
-enum Language
-{
+enum Language {
   LANGUAGE_C = 1,
   LANGUAGE_VERILOG = 2,
   LANGUAGE_PHP = 3
