@@ -29,7 +29,6 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <regex>
 
 #include "common_util.h"
 
@@ -273,9 +272,10 @@ inline std::string OriginalSourceExpression(
   size_t start_byte = ts_node_start_byte(node);
   size_t end_byte =  ts_node_end_byte(node);
 
-  std::string ret = source_file_contents.substr(start_byte, end_byte - start_byte);
-  std::string ret1 =  regex_replace(ret, std::regex("\n"), "");
-  return regex_replace(ret1,std::regex("\r"), "");
+  int length = end_byte - start_byte;
+  std::string substr = source_file_contents.substr(start_byte, length);
+  std::string rm_enter = substr.replace(substr.begin(), substr.end(), "\n", "");
+  return rm_enter.replace(rm_enter.begin(), rm_enter.end(), "\r", "");
 }
 
 inline std::string OpToString(const TSNode& node) {
