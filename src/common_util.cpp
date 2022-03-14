@@ -74,26 +74,6 @@ ManagedTSTree GetTSTree(const std::string& source_file,
   return GetTSTree<L>(file_contents, kReportParseError);
 }
 
-// For C language, we are looking for control structures such as if statements.
-template <>
-void CollectCodeBlocksOfInterest<LANGUAGE_C>(const TSNode& node,
-    code_blocks_t& code_blocks) {
-  if (ts_node_is_null(node)) { return; }
-
-  uint32_t count = ts_node_child_count(node);
-  for (uint32_t i = 0; i < count; i++) {
-    auto child = ts_node_child(node, i);
-    if (ts_node_is_null(child)) continue;
-    if (IsIfStatement<LANGUAGE_C>(child)) {
-      auto if_condition = GetIfConditionNode<LANGUAGE_C>(child);
-      if (!ts_node_has_error(if_condition)) {
-        code_blocks.push_back(if_condition);
-      }
-    }
-    CollectCodeBlocksOfInterest<LANGUAGE_C>(child, code_blocks);
-  }
-}
-
 // For Verilog language, we are looking for always blocks.
 template <>
 void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const TSNode& node,
@@ -111,6 +91,27 @@ void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const TSNode& node,
   }
 }
 
+// For C and PHP language,
+// we are looking for control structures such as if statements.
+template <Language L>
+void CollectCodeBlocksOfInterest(const TSNode& node,
+    code_blocks_t& code_blocks) {
+  if (ts_node_is_null(node)) { return; }
+
+  uint32_t count = ts_node_child_count(node);
+  for (uint32_t i = 0; i < count; i++) {
+    auto child = ts_node_child(node, i);
+    if (ts_node_is_null(child)) continue;
+    if (IsIfStatement<L>(child)) {
+      auto if_condition = GetIfConditionNode<L>(child);
+      if (!ts_node_has_error(if_condition)) {
+        code_blocks.push_back(if_condition);
+      }
+    }
+    CollectCodeBlocksOfInterest<L>(child, code_blocks);
+  }
+}
+
 template <Language L>
 void CollectCodeBlocksOfInterest(const ManagedTSTree& tree,
     code_blocks_t& code_blocks) {
@@ -123,12 +124,19 @@ ManagedTSTree GetTSTree<LANGUAGE_C>(const std::string&, bool);
 template
 ManagedTSTree GetTSTree<LANGUAGE_VERILOG>(const std::string&, bool);
 template
+ManagedTSTree GetTSTree<LANGUAGE_PHP>(const std::string&, bool);
+template
 ManagedTSTree GetTSTree<LANGUAGE_C>(const std::string&, std::string&);
 template
 ManagedTSTree GetTSTree<LANGUAGE_VERILOG>(const std::string&, std::string&);
+template
+ManagedTSTree GetTSTree<LANGUAGE_PHP>(const std::string&, std::string&);
 template
 void CollectCodeBlocksOfInterest<LANGUAGE_C>(const ManagedTSTree&,
                                              code_blocks_t&);
 template
 void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const ManagedTSTree &,
+                                                   code_blocks_t&);
+template
+void CollectCodeBlocksOfInterest<LANGUAGE_PHP>(const ManagedTSTree &,
                                                    code_blocks_t&);

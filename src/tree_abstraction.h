@@ -140,6 +140,12 @@ inline std::string NodeToString<LEVEL_MIN, LANGUAGE_VERILOG>(
   return NodeToString<LEVEL_MIN, LANGUAGE_C>(conditional_expression);
 }
 
+template <>
+inline std::string NodeToString<LEVEL_MIN, LANGUAGE_PHP>(
+    const TSNode& conditional_expression) {
+  return NodeToString<LEVEL_MIN, LANGUAGE_C>(conditional_expression);
+}
+
 // ---------------------------------------------------------------------------
 
 inline std::string AbstractTerminalString(const TSNode& node) {
@@ -265,7 +271,11 @@ inline std::string OriginalSourceExpression(
     const std::string& source_file_contents) {
   size_t start_byte = ts_node_start_byte(node);
   size_t end_byte =  ts_node_end_byte(node);
-  return source_file_contents.substr(start_byte, end_byte - start_byte);
+
+  int length = end_byte - start_byte;
+  std::string substr = source_file_contents.substr(start_byte, length);
+  std::string rm_enter = substr.replace(substr.begin(), substr.end(), "\n", "");
+  return rm_enter.replace(rm_enter.begin(), rm_enter.end(), "\r", "");
 }
 
 inline std::string OpToString(const TSNode& node) {
@@ -362,6 +372,12 @@ inline std::string NodeToString<LEVEL_TWO, LANGUAGE_VERILOG>(
   const TSNode& conditional_expression) {
     return NodeToString<LEVEL_MIN, LANGUAGE_VERILOG>(conditional_expression);
 }
+
+template <>
+inline std::string NodeToString<LEVEL_TWO, LANGUAGE_PHP>(
+  const TSNode& conditional_expression) {
+    return NodeToString<LEVEL_MIN, LANGUAGE_PHP>(conditional_expression);
+}
 // -----------------------------------------------------------------------
 // Close to full-detailed level with using Tree-sitter print. Only
 // difference is in printing operators for binary and unary ops.
@@ -403,6 +419,12 @@ inline std::string NodeToString<LEVEL_ONE, LANGUAGE_C>(const TSNode& node) {
 
 template <>
 inline std::string NodeToString<LEVEL_ONE, LANGUAGE_VERILOG>(
+  const TSNode& conditional_expression) {
+    return NodeToString<LEVEL_ONE, LANGUAGE_C>(conditional_expression);
+}
+
+template <>
+inline std::string NodeToString<LEVEL_ONE, LANGUAGE_PHP>(
   const TSNode& conditional_expression) {
     return NodeToString<LEVEL_ONE, LANGUAGE_C>(conditional_expression);
 }

@@ -28,9 +28,13 @@ template int TrainAndScanUtil::ScanFile<LANGUAGE_C>(
   const std::string& test_file, std::ostream& log_file) const;
 template int TrainAndScanUtil::ScanFile<LANGUAGE_VERILOG>(
   const std::string& test_file, std::ostream& log_file) const;
+template int TrainAndScanUtil::ScanFile<LANGUAGE_PHP>(
+  const std::string& test_file, std::ostream& log_file) const;
 template int TrainAndScanUtil::ScanExpression<LANGUAGE_C>(
   const std::string& expression, std::ostream& log_file) const;
 template int TrainAndScanUtil::ScanExpression<LANGUAGE_VERILOG>(
+  const std::string& expression, std::ostream& log_file) const;
+template int TrainAndScanUtil::ScanExpression<LANGUAGE_PHP>(
   const std::string& expression, std::ostream& log_file) const;
 
 template <TreeLevel L, Language G>

@@ -49,6 +49,12 @@ if(NOT EXISTS ${PROJECT_SOURCE_DIR}/src/tree-sitter/tree-sitter-verilog)
     )
 endif()
 
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/src/tree-sitter/tree-sitter-php)
+    execute_process(
+        COMMAND git clone https://github.com/tree-sitter/tree-sitter-php.git ${PROJECT_SOURCE_DIR}/src/tree-sitter/tree-sitter-php
+    )
+endif()
+
 get_filename_component(TREE_SITTER_INCLUDE src/tree-sitter/tree-sitter/lib/include ABSOLUTE)
 
 enable_testing()
