@@ -29,6 +29,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <regex> // NOLINT [build/c++11]
 
 #include "common_util.h"
 
@@ -274,15 +275,16 @@ inline std::string OriginalSourceExpression(
 
   int length = end_byte - start_byte;
   std::string substr = source_file_contents.substr(start_byte, length);
-  std::string rm_enter = substr.replace(substr.begin(), substr.end(), "\n", "");
-  return rm_enter.replace(rm_enter.begin(), rm_enter.end(), "\r", "");
+  std::string substr_nonewline =  regex_replace(substr, std::regex("\n"), "");
+  return regex_replace(substr_nonewline, std::regex("\r"), "");
 }
 
 inline std::string OpToString(const TSNode& node) {
   const std::string& operator_str = "operator";
   TSNode op = ts_node_child_by_field_name(node, operator_str.c_str(),
                                           operator_str.length());
-
+  if (ts_node_is_null(op))
+    return "";
   char* node_string = ts_node_string(op);
   std::string orig_op_string = node_string;
   free(node_string);

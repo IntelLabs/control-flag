@@ -78,13 +78,14 @@ Verilog support is WIP.
 
 #### Using patterns obtained from 6000 GitHub repos to scan repository of your choice
 
-Download the training data for C language depending on the memory constraints of your device. Note, however, that using smaller datasets may lead to reduced accuracy in the results ControlFlag produces and possibly an increase in the number of false positives it generates.
+Download the training data for the language of interest depending on the memory constraints of your device. Note, however, that using smaller datasets may lead to reduced accuracy in the results ControlFlag produces and possibly an increase in the number of false positives it generates.
 
-Dataset name | Size on disk | Memory requirements | Direct link | gdown ID | MD5 checksum
--------------|--------------|---------------------|-------------|----------|-------------
-Small        | ~100MB       | ~400MB              | [link](https://drive.google.com/file/d/1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb/view?usp=sharing) | 1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb | 2825f209aba0430993f7a21e74d99889
-Medium       |   ~450MB     | ~1.3GB           | [link](https://drive.google.com/file/d/1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3/view?usp=sharing) | 1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3 | aab2427edebe9ed4acab75c3c6227f24
-Large        |   ~9GB       | ~13GB           | [link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing) | 1-jzs3zrKU541hwChaciXSk8zrnMN1mYc | 1ba954d9716765d44917445d3abf8e85
+Language | Dataset name | Size on disk | Memory requirements | Direct link | gdown ID | MD5 checksum
+---------|--------------|--------------|---------------------|-------------|----------|-------------
+C | Small        | ~100MB       | ~400MB              | [link](https://drive.google.com/file/d/1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb/view?usp=sharing) | 1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb | 2825f209aba0430993f7a21e74d99889
+C | Medium       |   ~450MB     | ~1.3GB           | [link](https://drive.google.com/file/d/1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3/view?usp=sharing) | 1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3 | aab2427edebe9ed4acab75c3c6227f24
+C | Large        |   ~9GB       | ~13GB           | [link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing) | 1-jzs3zrKU541hwChaciXSk8zrnMN1mYc | 1ba954d9716765d44917445d3abf8e85
+PHP | Small      | ~120MB       |  ~1GB           | [Link](https://drive.google.com/file/d/1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5/view?usp=sharing) | 1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5 | 5a1cc4c24a20de7dad1b9f40661d517a
 
 ```
 $ python -m pip install gdown && gdown https://drive.google.com/uc?id=<id_from_table>
@@ -164,7 +165,7 @@ place of <training_repo_dir>.
 Usage: ./mine_patterns.sh -d <directory_to_mine_patterns_from> -o <output_file_to_store_training_data>
 Optional:
 [-n number_of_processes_to_use_for_mining]  (default: num_cpus_on_system)
-[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog)
+[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP)
 ```
 
 We use it as:
@@ -188,7 +189,7 @@ Optional:
  [-n max_number_of_results_for_autocorrect] (default: 5)
  [-j number_of_scanning_threads]            (default: num_cpus_on_systems)
  [-o output_log_dir]                        (default: /tmp)
- [-l source_language_number]                (default: 1 (C), supported: 1 (C), 2 (Verilog))
+ [-l source_language_number]                (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP))
  [-a anomaly_threshold]                     (default: 3.0)
 ```
 
