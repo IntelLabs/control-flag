@@ -85,8 +85,7 @@ Language | Dataset name | Size on disk | Memory requirements | Direct link | gdo
 C | Small        | ~100MB       | ~400MB              | [link](https://drive.google.com/file/d/1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb/view?usp=sharing) | 1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb | 2825f209aba0430993f7a21e74d99889
 C | Medium       |   ~450MB     | ~1.3GB           | [link](https://drive.google.com/file/d/1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3/view?usp=sharing) | 1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3 | aab2427edebe9ed4acab75c3c6227f24
 C | Large        |   ~9GB       | ~13GB           | [link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing) | 1-jzs3zrKU541hwChaciXSk8zrnMN1mYc | 1ba954d9716765d44917445d3abf8e85
-PHP | Small      | ~120MB       |  ~1GB           | [Link](https://drive.google.com/file/d/1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5/view?usp=sharing) |
-1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5 | 5a1cc4c24a20de7dad1b9f40661d517a
+PHP | Small      | ~120MB       |  ~1GB           | [Link](https://drive.google.com/file/d/1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5/view?usp=sharing) | 1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5 | 5a1cc4c24a20de7dad1b9f40661d517a
 
 ```
 $ python -m pip install gdown && gdown https://drive.google.com/uc?id=<id_from_table>
