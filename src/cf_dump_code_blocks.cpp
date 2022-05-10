@@ -93,7 +93,7 @@ int handle_command_args(int argc, char* argv[], CFDumpArgs& command_args) {
                 << std::endl
                 << "  [-l source_language_number]   (default: "
                 << LANGUAGE_C << ")"
-                << ", supported: 1 (C), 2 (Verilog), 3 (PHP)"
+                << ", supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++)"
                 << std::endl;
   };
 
@@ -104,9 +104,9 @@ int handle_command_args(int argc, char* argv[], CFDumpArgs& command_args) {
       case 'l':
         command_args.source_language_ = VerifyLanguage(atoi(optarg)); break;
       case 'g':
-        command_args.github_contributor_id_ = std::strtoul(argv[3], NULL, 10);
+        command_args.github_contributor_id_ = std::strtoul(optarg, NULL, 10);
         break;
-      case 't': command_args.level_ = VerifyTreeLevel(atoi(argv[2])); break;
+      case 't': command_args.level_ = VerifyTreeLevel(atoi(optarg)); break;
       default: print_usage(); return EXIT_FAILURE;
     }
   }
@@ -136,6 +136,9 @@ int main(int argc, char* argv[]) {
         break;
       case LANGUAGE_PHP:
         DumpCodeBlocksFromSourceFile<LANGUAGE_PHP>(command_args);
+        break;
+      case LANGUAGE_CPP:
+        DumpCodeBlocksFromSourceFile<LANGUAGE_CPP>(command_args);
         break;
       default:
         throw cf_unexpected_situation("Unsupported language:" +

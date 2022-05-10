@@ -14,7 +14,7 @@ function print_usage() {
   fi
   echo " [-o output_log_dir]                        (default: /tmp)"
   echo " [-a anomaly_threshold]                     (default: 3.0)"
-  echo " [-l source_language_number]                (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP)"
+  echo " [-l source_language_number]                (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++)"
 
   exit
 }
@@ -58,9 +58,9 @@ then
   print_usage $0
 fi
 
-if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 3 ));
+if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 4 ));
 then
-  echo "ERROR: Only 1 (C), 2 (Verilog) or 3 (PHP) are supported languages; received ${LANGUAGE}"
+  echo "ERROR: Only 1 (C), 2 (Verilog), 3 (PHP), and 4 (C++) are supported languages; received ${LANGUAGE}"
   print_usage $0
 fi 
 
@@ -68,11 +68,15 @@ SCAN_FILE_LIST=`mktemp`
 if [ "${LANGUAGE}" = "1" ];
 then
   find "${SCAN_DIR}" -iname "*.c" -o -iname "*.h" -type f > ${SCAN_FILE_LIST}
+elif [ "${LANGUAGE}" = "2" ];
+then
+  find "${SCAN_DIR}" -iname "*.v" -o -iname "*.vh" -type f > ${SCAN_FILE_LIST}
 elif [ "${LANGUAGE}" = "3" ];
 then
   find "${SCAN_DIR}" -iname "*.php" -type f | fgrep -v "/vendor/" > ${SCAN_FILE_LIST}
-else
-  find "${SCAN_DIR}" -iname "*.v" -o -iname "*.vh" -type f > ${SCAN_FILE_LIST}
+elif [ "${LANGUAGE}" = "4" ];
+then
+  find "${SCAN_DIR}" -iname "*.cpp" -o -iname "*.cc" -o -iname "*.cxx" -o -iname "*.h" -o -iname "*.hpp" -o -iname "*.hxx" -type f > ${SCAN_FILE_LIST}
 fi
 
 SCRIPTS_DIR=`dirname $0`

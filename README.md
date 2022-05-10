@@ -39,8 +39,6 @@ More details can be found in our MAPS paper (https://arxiv.org/abs/2011.03616).
 - `scripts`: Scripts for pattern mining and scanning for anomalies
 - `quick_start`: Scripts to run quick start tests
 - `github`: Scripts and data for downloading GitHub repos.
-  It also contains pre-processed training data containing patterns mined from
-6000 GitHub repositories using C as their primary language.
 - `tests`: unit tests
 
 ## Install
@@ -69,14 +67,13 @@ $ cmake .
 $ make -j
 $ make test
 ```
-All tests in `make test` should pass, but currently tests for Verilog are failing because of a version mismatch issue.
-Verilog support is WIP.
+All tests in `make test` should pass.
 
 ## Using ControlFlag
 
 ### Quick start
 
-#### Using patterns obtained from 6000 GitHub repos to scan repository of your choice
+#### Using patterns obtained from several GitHub repos to scan repository of your choice
 
 Download the training data for the language of interest depending on the memory constraints of your device. Note, however, that using smaller datasets may lead to reduced accuracy in the results ControlFlag produces and possibly an increase in the number of false positives it generates.
 
@@ -85,6 +82,9 @@ Language | Dataset name | Size on disk | Memory requirements | Direct link | gdo
 C | Small        | ~100MB       | ~400MB              | [link](https://drive.google.com/file/d/1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb/view?usp=sharing) | 1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb | 2825f209aba0430993f7a21e74d99889
 C | Medium       |   ~450MB     | ~1.3GB           | [link](https://drive.google.com/file/d/1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3/view?usp=sharing) | 1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3 | aab2427edebe9ed4acab75c3c6227f24
 C | Large        |   ~9GB       | ~13GB           | [link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing) | 1-jzs3zrKU541hwChaciXSk8zrnMN1mYc | 1ba954d9716765d44917445d3abf8e85
+C++ | Small | ~200MB | ~500MB | [link](https://drive.google.com/file/d/1ZD9J7vyT61T1D4rsedVXgFi0CrVb5BJl/view?usp=sharing) | 1ZD9J7vyT61T1D4rsedVXgFi0CrVb5BJl | f954486e20961f0838ac08e5d4dbf312
+C++ | Medium | ~500MB | ~1.3GB | [link](https://drive.google.com/file/d/1Pj3bQN3nwy84F5o1w05T1Gz8b4hGuPUr/view?usp=sharing) | 1Pj3bQN3nwy84F5o1w05T1Gz8b4hGuPUr | a5c18ea1cdbe354b93aabf9ecaa5b07a
+C++ | Large | ~1.2GB | ~3GB | [link](https://drive.google.com/file/d/14iNcH3plw3EYnYfX63LntPtyr8Pwo2IP/view?usp=sharing) | 14iNcH3plw3EYnYfX63LntPtyr8Pwo2IP | 4f5ffc1ab942eaba399cafd5be8bb45f
 PHP | Small      | ~120MB       |  ~1GB           | [Link](https://drive.google.com/file/d/1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5/view?usp=sharing) | 1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5 | 5a1cc4c24a20de7dad1b9f40661d517a
 
 ```
@@ -96,16 +96,22 @@ $ tar -zxf <tgz_file>
 To scan C code of your choice, use below command:
 
 ```
-$ scripts/scan_for_anomalies.sh -d <directory_to_be_scanned_for_anomalies> -t <training_data>.ts -o <output_directory_to_store_log_files>
+$ scripts/scan_for_anomalies.sh -d <directory_to_be_scanned_for_anomalies> -t <training_data>.ts -o <output_directory_to_store_log_files> -l 1
+```
+
+To scan C++ code of your choice, use below command:
+
+```
+$ scripts/scan_for_anomalies.sh -d <directory_to_be_scanned_for_anomalies> -t <training_data>.ts -o <output_directory_to_store_log_files> -l 4
 ```
 
 Once the run is complete (which could take some time depending on your system and the
-number of C programs in your repository,) refer to [the section below to
+number of programs from your repository that can be scanned by ControlFlag,) refer to [the section below to
 understand scan output](#understanding-scan-output).
 
 #### Mining patterns from a small repo and applying them to another small repo
 
-In this test, we will mine patterns from
+In this test for C language programs, we will mine patterns from
 [Glb-director](https://github.com/github/glb-director.git) project of GitHub and
 apply them to flag anomalies in GitHub's [brubeck](https://github.com/github/brubeck.git) project.
 
@@ -143,9 +149,9 @@ statements that appear in C programs.*
 
 If you want to use your own repository for mining patterns, jump to Step 1.2.
 
-1.1 __Downloading Top-100 GitHub repos for C language__
+1.1 __Downloading GitHub repos for C language having more than 100 stars__
 
-Steps below show how to download Top-100 GitHub repos for C language
+Steps below show how to download GitHub repos for C language that have more than 100 stars
 (`c100.txt`) and generate training data. `training_repo_dir` is a directory
 where the command below will clone all the repos.
 
@@ -165,7 +171,8 @@ place of <training_repo_dir>.
 Usage: ./mine_patterns.sh -d <directory_to_mine_patterns_from> -o <output_file_to_store_training_data>
 Optional:
 [-n number_of_processes_to_use_for_mining]  (default: num_cpus_on_system)
-[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP)
+[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++)
+[-g github_repo_id] (default: 0) A unique identifier for GitHub repository, if any
 ```
 
 We use it as:
@@ -178,7 +185,7 @@ found in the specified GitHub repos and their AST (abstract syntax tree) represe
 You can view this file as a text file, if
 you want.
 
-## Evaluation (or scanning for anomalies in C code from test repo)
+## Evaluation (or scanning for anomalies)
 
 We can run `scan_for_anomalies.sh` script to scan target directory of interest.
 Its usage is as below.
@@ -189,12 +196,8 @@ Optional:
  [-n max_number_of_results_for_autocorrect] (default: 5)
  [-j number_of_scanning_threads]            (default: num_cpus_on_systems)
  [-o output_log_dir]                        (default: /tmp)
- [-l source_language_number]                (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP))
+ [-l source_language_number]                (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++))
  [-a anomaly_threshold]                     (default: 3.0)
-```
-
-```
-scripts/scan_for_anomalies.sh -d <test_directory> -t <training_data_file> -o <output_log_dir>
 ```
 
 As a part of scanning for anomalies, ControlFlag also suggests possible
@@ -218,7 +221,7 @@ $ grep "Potential anomaly" <output_log_dir>/thread_*.log
 A sample anomaly report looks like below:
 ```
 Level:<ONE or TWO> Expression: <AST_for_anomalous_expression>
-Source file and line number: <C code with line number having the anomaly>
+Source file and line number: <Source code expression with line number having the anomaly>
 Potential anomaly
 Did you mean ...
 ```

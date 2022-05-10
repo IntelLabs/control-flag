@@ -27,9 +27,10 @@ include_directories(${TREE_SITTER_INCLUDE})
 set (test_c_parser_parts 1 2 3 4)
 set (test_php_parser_parts 1 2 3 4)
 #set (test_verilog_parser_parts 1 2 3 4)
+set (test_cpp_parser_parts 1 2 3 4)
 set (test_expression_compactor_parts 1 2 3 4 5 6 7)
-#set (test_dump_conditional_exprs_parts 1 2 3 4 5 6)
-set (test_dump_conditional_exprs_parts 4 5 6 7 8 9)
+#set (test_dump_conditional_exprs_parts 1 2 3 4 5 6 7 8 9 10 11 12)
+set (test_dump_conditional_exprs_parts 4 5 6 7 8 9 10 11 12)
 set (test_trie_parts 1 2 3 4 5 6)
 
 file(GLOB files "test_*.cpp")
@@ -42,6 +43,7 @@ foreach(file ${files})
       tree-sitter
       tree-sitter-c
       tree-sitter-php
+      tree-sitter-cpp
       tree-sitter-verilog
       pthread)
     foreach(part ${${file_without_ext}_parts})

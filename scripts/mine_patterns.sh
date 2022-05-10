@@ -10,8 +10,8 @@ function print_usage() {
   else
     echo "[-n number_of_processes_to_use_for_mining]  (default: num_cpus_on_system)"
   fi
-  echo "[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP)"
-
+  echo "[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++)"
+  echo "[-g github_repo_id] (default: 0) A unique identifier for GitHub repository, if any"
   exit
 }
 
@@ -23,14 +23,16 @@ else
   NUM_MINER_PROCS=`nproc`
 fi
 LANGUAGE=1
+REPO_ID=0
 
-while getopts d:o:n:l: flag
+while getopts d:o:n:l:g: flag
 do
   case "${flag}" in
     d) TRAIN_DIR=${OPTARG};;
     o) OUTPUT_FILE=${OPTARG};;
     n) NUM_MINER_PROCS=${OPTARG};;
     l) LANGUAGE=${OPTARG};;
+    g) REPO_ID=${OPTARG};;
   esac
 done
 
@@ -41,15 +43,15 @@ then
   print_usage $0
 fi
 
-if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 3 ));
+if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 4 ));
 then
-  echo "ERROR: Only 1 (C), 2 (Verilog) or 3 (PHP) are supported languages; received ${LANGUAGE}"
+  echo "ERROR: Only 1 (C), 2 (Verilog), 3 (PHP), and 4 (C++) are supported languages; received ${LANGUAGE}"
   print_usage $0
 fi
 
 if [ -f "${OUTPUT_FILE}" ]
 then
-  echo "ERROR: Output file exists. We don't want to over-write it."
+  echo "ERROR: Output file ${OUTPUT_FILE} exists. We don't want to over-write it."
   print_usage $0
 fi
 
@@ -58,36 +60,41 @@ FILE_LIST=${TMP_DIR}/file_list.txt
 if [ "${LANGUAGE}" = "1" ];
 then
   find "${TRAIN_DIR}" -iname "*.c" -o -iname "*.h" -type f > ${FILE_LIST}
+elif [ "${LANGUAGE}" = "2" ];
+then
+  find "${TRAIN_DIR}" -iname "*.v" -o -iname "*.vh" -type f > ${FILE_LIST}
 elif [ "${LANGUAGE}" = "3" ];
 then
   find "${TRAIN_DIR}" -iname "*.php" -type f | fgrep -v "/vendor/" > ${FILE_LIST}
-else
-  find "${TRAIN_DIR}" -iname "*.v" -o -iname "*.vh" -type f > ${FILE_LIST}
+elif [ "${LANGUAGE}" = "4" ];
+then
+  find "${TRAIN_DIR}" -iname "*.cpp" -o -iname "*.cc" -o -iname "*.cxx" -o -iname "*.h" -o -iname "*.hpp" -o -iname "*.hxx" -type f > ${FILE_LIST}
 fi
 
 SCRIPTS_DIR=`dirname $0`
 function dump_code_blocks() {
-  id=`echo "$1" | cut -d ':' -f 1`
-  f=`echo  "$1" | cut -d ':' -f 2-`
+  id=${REPO_ID}
+  f=$1
   ${SCRIPTS_DIR}/../bin/cf_dump_code_blocks -f "$f" -t 100 -g ${id} -l ${LANGUAGE} >> $2
 }
 export -f dump_code_blocks
 export LANGUAGE
 export SCRIPTS_DIR
+export REPO_ID
 
 if ! command -v parallel &> /dev/null
 then
   echo "GNU Parallel does not exist. Invoking serial dump.."
-  for id_f in `cat $FILE_LIST`;
+  for f in `cat $FILE_LIST`;
   do
-    dump_code_blocks ${id_f} ${OUTPUT_FILE}
+    dump_code_blocks ${f} ${OUTPUT_FILE}
   done
 
 else
 
   echo "GNU Parallel exists. Invoking parallel dump.."
   cat ${FILE_LIST} | parallel --eta --bar --progress \
-    -I% -j0 dump_code_blocks % ${TMP_DIR}/proc_{%}.log
+    -I% -j ${NUM_MINER_PROCS} dump_code_blocks % ${TMP_DIR}/proc_{%}.log
 
   for i in `seq 1 $NUM_MINER_PROCS`;
   do

@@ -27,47 +27,9 @@
 #include <vector>
 #include <sstream>
 #include <memory>
-#include <exception>
 #include <iostream>
 
 #include "parser.h"
-
-//----------------------------------------------------------------------------
-class cf_string_exception: public std::exception {
- public:
-  explicit cf_string_exception(const std::string& message) :
-    message_(message) {}
-  virtual const char* what() const noexcept { return message_.c_str(); }
- private:
-  std::string message_;
-};
-
-class cf_file_access_exception: public cf_string_exception {
- public:
-  explicit cf_file_access_exception(const std::string& error) :
-    cf_string_exception("File access failed: " + error) {}
-};
-
-class cf_parse_error: public cf_string_exception {
- public:
-  explicit cf_parse_error(const std::string& expression) :
-    cf_string_exception("Parse error in expression:" + expression) {}
-};
-
-class cf_unexpected_situation: public cf_string_exception {
- public:
-  explicit cf_unexpected_situation(const std::string& error) :
-    cf_string_exception("Assert failed: " + error) {}
-};
-
-inline void cf_assert(bool value, const std::string& message) {
-  if (value == false) throw cf_unexpected_situation(message);
-}
-
-inline void cf_assert(bool value, const std::string& message,
-                     const TSNode& node) {
-  cf_assert(value, message + ts_node_string(node));
-}
 
 //----------------------------------------------------------------------------
 

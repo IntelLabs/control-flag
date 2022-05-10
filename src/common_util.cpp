@@ -23,6 +23,7 @@
 #include <sstream>
 
 #include "parser.h"
+#include "exception.h"
 #include "common_util.h"
 
 template <Language L>
@@ -91,8 +92,8 @@ void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const TSNode& node,
   }
 }
 
-// For C and PHP language,
-// we are looking for control structures such as if statements.
+// For C, C++, and PHP language, we are looking for control structures
+// such as if statements.
 template <Language L>
 void CollectCodeBlocksOfInterest(const TSNode& node,
     code_blocks_t& code_blocks) {
@@ -126,11 +127,15 @@ ManagedTSTree GetTSTree<LANGUAGE_VERILOG>(const std::string&, bool);
 template
 ManagedTSTree GetTSTree<LANGUAGE_PHP>(const std::string&, bool);
 template
+ManagedTSTree GetTSTree<LANGUAGE_CPP>(const std::string&, bool);
+template
 ManagedTSTree GetTSTree<LANGUAGE_C>(const std::string&, std::string&);
 template
 ManagedTSTree GetTSTree<LANGUAGE_VERILOG>(const std::string&, std::string&);
 template
 ManagedTSTree GetTSTree<LANGUAGE_PHP>(const std::string&, std::string&);
+template
+ManagedTSTree GetTSTree<LANGUAGE_CPP>(const std::string&, std::string&);
 template
 void CollectCodeBlocksOfInterest<LANGUAGE_C>(const ManagedTSTree&,
                                              code_blocks_t&);
@@ -139,4 +144,7 @@ void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const ManagedTSTree &,
                                                    code_blocks_t&);
 template
 void CollectCodeBlocksOfInterest<LANGUAGE_PHP>(const ManagedTSTree &,
-                                                   code_blocks_t&);
+                                               code_blocks_t&);
+template
+void CollectCodeBlocksOfInterest<LANGUAGE_CPP>(const ManagedTSTree &,
+                                               code_blocks_t&);

@@ -27,19 +27,22 @@
 #include <thread>  // NOLINT [build/c++11]
 
 #include "tree_sitter/api.h"
+#include "exception.h"
 
 extern "C" const TSLanguage *tree_sitter_c();
 extern "C" const TSLanguage *tree_sitter_verilog();
 extern "C" const TSLanguage *tree_sitter_php();
+extern "C" const TSLanguage *tree_sitter_cpp();
 
 enum Language {
   LANGUAGE_C = 1,
   LANGUAGE_VERILOG = 2,
-  LANGUAGE_PHP = 3
+  LANGUAGE_PHP = 3,
+  LANGUAGE_CPP = 4
 };
 
 #define LANGUAGE_MIN LANGUAGE_C
-#define LANGUAGE_MAX LANGUAGE_PHP
+#define LANGUAGE_MAX LANGUAGE_CPP
 
 inline Language VerifyLanguage(int language) {
   if (language < LANGUAGE_MIN)
@@ -54,6 +57,9 @@ inline int LanguageToInt(Language l) { return static_cast<int>(l); }
 template <Language L> inline const TSLanguage* GetTSLanguage();
 template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_C> () {
   return tree_sitter_c();
+}
+template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_CPP> () {
+  return tree_sitter_cpp();
 }
 template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_VERILOG> () {
   return tree_sitter_verilog();
@@ -70,7 +76,10 @@ class ParserBase {
     // set_language API call can fail if tree-sitter library version is
     // different than its language support.
     bool ret = ts_parser_set_language(parser_, GetTSLanguage<L>());
-    assert(ret == true);
+    if (ret == false) {
+      throw cf_unexpected_situation("Setting parser language failed:" +
+                                    LanguageToInt(L));
+    }
   }
 
   ~ParserBase() {
@@ -117,6 +126,9 @@ template <> inline bool IsIfStatement<LANGUAGE_VERILOG>(const TSNode& node) {
 template <> inline bool IsIfStatement<LANGUAGE_PHP>(const TSNode& node) {
   return IsTSNodeofType(node, "if_statement");
 }
+template <> inline bool IsIfStatement<LANGUAGE_CPP>(const TSNode& node) {
+  return IsTSNodeofType(node, "if_statement");
+}
 inline bool IsCommentNode(const TSNode& node) {
   return IsTSNodeofType(node, "comment");
 }
@@ -138,6 +150,17 @@ template <>
 inline bool IsPrimitiveType<LANGUAGE_C>(const TSNode& node) {
   return IsTSNodeofType(node, "primitive_type");
 }
+template <> inline bool IsIdentifier<LANGUAGE_CPP>(const TSNode& node) {
+  return IsTSNodeofType(node, "identifier");
+}
+template <>
+inline bool IsLiteral<LANGUAGE_CPP>(const TSNode& node) {
+  return IsTSNodeofType(node, "number_literal");
+}
+template <>
+inline bool IsPrimitiveType<LANGUAGE_CPP>(const TSNode& node) {
+  return IsTSNodeofType(node, "primitive_type");
+}
 template <>
 inline bool IsIdentifier<LANGUAGE_VERILOG>(const TSNode& node) {
   return IsTSNodeofType(node, "simple_identifier");
@@ -156,6 +179,12 @@ inline bool IsAlwaysBlock(const TSNode& node) {
 
 template <>
 inline TSNode GetIfConditionNode<LANGUAGE_C>(const TSNode& if_statement) {
+  const std::string& kIfCondition = "condition";
+  return ts_node_child_by_field_name(if_statement,
+                      kIfCondition.c_str(), kIfCondition.length());
+}
+template <>
+inline TSNode GetIfConditionNode<LANGUAGE_CPP>(const TSNode& if_statement) {
   const std::string& kIfCondition = "condition";
   return ts_node_child_by_field_name(if_statement,
                       kIfCondition.c_str(), kIfCondition.length());

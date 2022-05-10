@@ -167,6 +167,54 @@ TestResult Test9() {
     "}", kExpectedCodeBlocks);
 }
 
+// Positive test for C++ language with 1 expression
+TestResult Test10() {
+  const size_t kExpectedCodeBlocks = 1;
+  return ParseStringWithTSParser<LANGUAGE_CPP>(
+    "#include <iostream>\n"\
+    "\n"\
+    "class X {\n" \
+    " public:\n" \
+    "  int x;\n" \
+    "};\n" \
+    "int foo() {\n"\
+    " X obj_x;\n" \
+    " if (obj_x.x > 0) obj_x.x++;\n" \
+    " return obj_x.x;\n"\
+    "}", kExpectedCodeBlocks);
+}
+
+// Positive test for C++ language with 2 if-statements
+TestResult Test11() {
+  const size_t kExpectedCodeBlocks = 2;
+  return ParseStringWithTSParser<LANGUAGE_CPP>(
+    "#include <iostream>\n"\
+    "\n"\
+    "class X {\n" \
+    " public:\n" \
+    "  int x;\n" \
+    "};\n" \
+    "int foo() {\n"\
+    " X obj_x;\n" \
+    " if (obj_x.x > 0) obj_x.x++;\n" \
+    " if (obj_x.x >= 100) obj_x.x*=obj_x.x;\n" \
+    " return obj_x.x;\n"\
+    "}", kExpectedCodeBlocks);
+}
+
+// Negative test for C++ language with 0 if-statements
+TestResult Test12() {
+  const size_t kExpectedCodeBlocks = 0;
+  return ParseStringWithTSParser<LANGUAGE_CPP>(
+    "#include <iostream>\n"\
+    "\n"\
+    "int foo() {\n"\
+    " int x;\n" \
+    " while (x > 0) x++;\n" \
+    " while (x >= 100) x*=x;\n" \
+    " return x;\n"\
+    "}", kExpectedCodeBlocks);
+}
 }  // anonymous namespace
 
 int main(int argc, char* argv[]) {
@@ -181,6 +229,9 @@ int main(int argc, char* argv[]) {
     case 7: ReportTestResult(Test7()); break;
     case 8: ReportTestResult(Test8()); break;
     case 9: ReportTestResult(Test9()); break;
+    case 10: ReportTestResult(Test10()); break;
+    case 11: ReportTestResult(Test11()); break;
+    case 12: ReportTestResult(Test12()); break;
     default: assert(1 == 0);
   }
   return 0;
