@@ -291,9 +291,10 @@ inline std::string OpToString(const TSNode& node) {
   return orig_op_string + " ";
 }
 
-inline std::string AbstractParenthesizedExpressionString(const TSNode&
-    parenthesized_expression_node) {
+inline std::string AbstractConditionalExpressionString(const TSNode&
+    conditional_expression_node) {
   const std::string parenthesized_expression = "parenthesized_expression";
+  const std::string condition_clause = "condition_clause";
   const std::string binary_expression = "binary_expression";
   const std::string assignment_expression = "assignment_expression";
   const std::string unary_expression = "unary_expression";
@@ -303,11 +304,15 @@ inline std::string AbstractParenthesizedExpressionString(const TSNode&
   const std::string subscript_expression = "subscript_expression";
 
   std::string ret;
-  if (ts_node_named_child_count(parenthesized_expression_node) != 1) return "";
-  TSNode node = ts_node_named_child(parenthesized_expression_node, 0);
+  if (ts_node_named_child_count(conditional_expression_node) != 1) return "";
+  TSNode node = ts_node_named_child(conditional_expression_node, 0);
   if (parenthesized_expression.compare(ts_node_type(node)) == 0) {
     ret += "(parenthesized_expression ";
-    ret += AbstractParenthesizedExpressionString(node);
+    ret += AbstractConditionalExpressionString(node);
+    ret += ")";
+  } else if (condition_clause.compare(ts_node_type(node)) == 0) {
+    ret += "(condition_clause ";
+    ret += AbstractConditionalExpressionString(node);
     ret += ")";
   } else if (binary_expression.compare(ts_node_type(node)) == 0) {
     ret += "(binary_expression ";
@@ -355,11 +360,31 @@ inline std::string NodeToString<LEVEL_TWO, LANGUAGE_C>(
   if (parenthesized_expression.compare(
       ts_node_type(conditional_expression)) == 0) {
     ret += "(parenthesized_expression ";
-    ret += AbstractParenthesizedExpressionString(conditional_expression);
+    ret += AbstractConditionalExpressionString(conditional_expression);
     ret += ")";
   } else {
     throw cf_unexpected_situation(
       "Expecting parenthesized_expression at top-level, found:" +
+      std::string(ts_node_string(conditional_expression)));
+  }
+
+  return ret;
+}
+
+template <>
+inline std::string NodeToString<LEVEL_TWO, LANGUAGE_CPP>(
+    const TSNode& conditional_expression) {
+  std::string ret;
+
+  const std::string condition_clause = "condition_clause";
+  if (condition_clause.compare(
+      ts_node_type(conditional_expression)) == 0) {
+    ret += "(condition_clause ";
+    ret += AbstractConditionalExpressionString(conditional_expression);
+    ret += ")";
+  } else {
+    throw cf_unexpected_situation(
+      "Expecting condition_clause at top-level, found:" +
       std::string(ts_node_string(conditional_expression)));
   }
 
@@ -384,7 +409,7 @@ inline std::string NodeToString<LEVEL_TWO, LANGUAGE_PHP>(
 // Close to full-detailed level with using Tree-sitter print. Only
 // difference is in printing operators for binary and unary ops.
 //
-// For Level 1, both C and Verilog have same implementation.
+// For Level 1, C, C++, and Verilog have same implementation.
 template <>
 inline std::string NodeToString<LEVEL_ONE, LANGUAGE_C>(const TSNode& node) {
   std::string ret = "";
@@ -431,4 +456,9 @@ inline std::string NodeToString<LEVEL_ONE, LANGUAGE_PHP>(
     return NodeToString<LEVEL_ONE, LANGUAGE_C>(conditional_expression);
 }
 
+template <>
+inline std::string NodeToString<LEVEL_ONE, LANGUAGE_CPP>(
+  const TSNode& conditional_expression) {
+    return NodeToString<LEVEL_ONE, LANGUAGE_C>(conditional_expression);
+}
 #endif  // SRC_TREE_ABSTRACTION_H_

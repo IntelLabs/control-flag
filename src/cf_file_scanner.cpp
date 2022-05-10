@@ -24,6 +24,7 @@
 #include <string>
 #include <thread>  // NOLINT [build/c++11]
 
+#include "exception.h"
 #include "train_and_scan_util.h"
 #include "trie.h"
 
@@ -54,7 +55,7 @@ static int handle_command_args(int argc, char* argv[], FileScannerArgs& args) {
            << "  [-a anomaly_threshold]                     (default: 3.0)"
            << std::endl
            << "  [-l source_language_number]                (default: 1 (C), "
-           << "supported: 1 (C), 2 (Verilog), 3(PHP))"
+           << "supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++))"
            << std::endl
            << "  [-v log_level ]                            (default: 0, "
            << "{ERROR, 0}, {INFO, 1}, {DEBUG, 2})"
@@ -159,7 +160,11 @@ int main(int argc, char* argv[]) {
             break;
           case LANGUAGE_PHP:
             status = train_and_scan_util.ScanFile<LANGUAGE_PHP>(eval_file,
-                                                                    log_file);
+                                                                log_file);
+            break;
+          case LANGUAGE_CPP:
+            status = train_and_scan_util.ScanFile<LANGUAGE_CPP>(eval_file,
+                                                                log_file);
             break;
           default:
             throw cf_unexpected_situation("Unsupported language:" +
