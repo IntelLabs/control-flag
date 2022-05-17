@@ -226,3 +226,16 @@ Potential anomaly
 Did you mean ...
 ```
 The text after "Did you mean" shows possible corrections to the anomalous expression.
+
+## Success stories
+In the spirit of community service, we routinely scan open-source packages using ControlFlag. We have found several programming errors in various open-source projects. We are mentioning some of the errors that are confirmed by the respective developers below.
+
+Issue link | Language | Erroneous expression | Comment
+-----------|----------------------|----------------------|---------
+https://github.com/curl/curl/pull/6193 | C | `if (s->keepon > TRUE)` | Comparison between a variable and a boolean using `>`
+https://github.com/vrpn/vrpn/issues/263 | C | `(l_inbuf[2] \| 1)`, `if (l_inbuf[3] \| 1)` | Incorrect use of `\|` instead of `&`
+https://github.com/vlm/asn1c/issues/443 | C | `if(!saved_aid && 0)` | Dead code
+https://github.com/shoes/shoes3/issues/468 | C | `if ((attr == 39) \|\| (attr = 49))` | Incorrect use of `=` instead of `==`
+https://github.com/IoLanguage/io/issues/455 | C | `if (UArray_greaterThan_(self, other) \| UArray_equals_(self, other))` | Inefficient use of `\|` instead of `\|\|`
+https://github.com/IoLanguage/io/issues/455 | C | `if( ln = (SFG_Node *)node->Next )`, `if( ln = (SFG_Node *)node->Prev )` | Missing parenthesis
+https://github.com/elua/elua/issues/170 | C | `if (Protection_Level_1_Register &= FMI_Sector_Mask)` | Missing parenthesis
