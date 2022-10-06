@@ -36,6 +36,15 @@ target_include_directories(tree-sitter-php
   tree-sitter-php/src
 )
 
+add_library(tree-sitter-solidity STATIC
+  tree-sitter-solidity/src/parser.c
+)
+
+target_include_directories(tree-sitter-solidity
+  PRIVATE
+  tree-sitter-solidity/src
+)
+
 add_library(tree-sitter-cpp STATIC
   tree-sitter-cpp/src/parser.c
   tree-sitter-cpp/src/scanner.cc

@@ -93,7 +93,7 @@ int handle_command_args(int argc, char* argv[], CFDumpArgs& command_args) {
                 << std::endl
                 << "  [-l source_language_number]   (default: "
                 << LANGUAGE_C << ")"
-                << ", supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++)"
+                << ", supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++), 5 (SOLIDITY)"
                 << std::endl;
   };
 
@@ -136,6 +136,9 @@ int main(int argc, char* argv[]) {
         break;
       case LANGUAGE_PHP:
         DumpCodeBlocksFromSourceFile<LANGUAGE_PHP>(command_args);
+        break;
+      case LANGUAGE_SOLIDITY:
+        DumpCodeBlocksFromSourceFile<LANGUAGE_SOLIDITY>(command_args);
         break;
       case LANGUAGE_CPP:
         DumpCodeBlocksFromSourceFile<LANGUAGE_CPP>(command_args);

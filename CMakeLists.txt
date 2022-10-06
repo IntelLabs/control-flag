@@ -55,6 +55,12 @@ if(NOT EXISTS ${PROJECT_SOURCE_DIR}/src/tree-sitter/tree-sitter-php)
     )
 endif()
 
+if(NOT EXISTS ${PROJECT_SOURCE_DIR}/src/tree-sitter/tree-sitter-solidity)
+    execute_process(
+        COMMAND git clone https://github.com/JoranHonig/tree-sitter-solidity.git ${PROJECT_SOURCE_DIR}/src/tree-sitter/tree-sitter-solidity
+    )
+endif()
+
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/src/tree-sitter/tree-sitter-cpp)
     execute_process(
         COMMAND git clone https://github.com/tree-sitter/tree-sitter-cpp.git ${PROJECT_SOURCE_DIR}/src/tree-sitter/tree-sitter-cpp

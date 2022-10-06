@@ -32,13 +32,15 @@
 extern "C" const TSLanguage *tree_sitter_c();
 extern "C" const TSLanguage *tree_sitter_verilog();
 extern "C" const TSLanguage *tree_sitter_php();
+extern "C" const TSLanguage *tree_sitter_solidity();
 extern "C" const TSLanguage *tree_sitter_cpp();
 
 enum Language {
   LANGUAGE_C = 1,
   LANGUAGE_VERILOG = 2,
   LANGUAGE_PHP = 3,
-  LANGUAGE_CPP = 4
+  LANGUAGE_CPP = 4,
+  LANGUAGE_SOLIDITY = 5
 };
 
 #define LANGUAGE_MIN LANGUAGE_C
@@ -66,6 +68,10 @@ template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_VERILOG> () {
 }
 template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_PHP> () {
   return tree_sitter_php();
+}
+
+template <> inline const TSLanguage* GetTSLanguage<LANGUAGE_SOLIDITY> () {
+  return tree_sitter_solidity();
 }
 
 template<Language L>
@@ -124,6 +130,9 @@ template <> inline bool IsIfStatement<LANGUAGE_VERILOG>(const TSNode& node) {
   return IsTSNodeofType(node, "conditional_statement");
 }
 template <> inline bool IsIfStatement<LANGUAGE_PHP>(const TSNode& node) {
+  return IsTSNodeofType(node, "if_statement");
+}
+template <> inline bool IsIfStatement<LANGUAGE_SOLIDITY>(const TSNode& node) {
   return IsTSNodeofType(node, "if_statement");
 }
 template <> inline bool IsIfStatement<LANGUAGE_CPP>(const TSNode& node) {
@@ -209,6 +218,13 @@ inline TSNode GetIfConditionNode<LANGUAGE_VERILOG>(const TSNode& if_statement) {
 }
 template <>
 inline TSNode GetIfConditionNode<LANGUAGE_PHP>(const TSNode& if_statement) {
+  const std::string& kIfCondition = "condition";
+  return ts_node_child_by_field_name(if_statement,
+                      kIfCondition.c_str(), kIfCondition.length());
+}
+
+template <>
+inline TSNode GetIfConditionNode<LANGUAGE_SOLIDITY>(const TSNode& if_statement) {
   const std::string& kIfCondition = "condition";
   return ts_node_child_by_field_name(if_statement,
                       kIfCondition.c_str(), kIfCondition.length());

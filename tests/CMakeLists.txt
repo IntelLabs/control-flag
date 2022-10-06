@@ -43,6 +43,7 @@ foreach(file ${files})
       tree-sitter
       tree-sitter-c
       tree-sitter-php
+      tree-sitter-solidity
       tree-sitter-cpp
       tree-sitter-verilog
       pthread)

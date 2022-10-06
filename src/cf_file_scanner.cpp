@@ -55,7 +55,7 @@ static int handle_command_args(int argc, char* argv[], FileScannerArgs& args) {
            << "  [-a anomaly_threshold]                     (default: 3.0)"
            << std::endl
            << "  [-l source_language_number]                (default: 1 (C), "
-           << "supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++))"
+           << "supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++), 5 (SOLIDITY) )"
            << std::endl
            << "  [-v log_level ]                            (default: 0, "
            << "{ERROR, 0}, {INFO, 1}, {DEBUG, 2})"
@@ -160,6 +160,10 @@ int main(int argc, char* argv[]) {
             break;
           case LANGUAGE_PHP:
             status = train_and_scan_util.ScanFile<LANGUAGE_PHP>(eval_file,
+                                                                log_file);
+            break;
+          case LANGUAGE_SOLIDITY:
+            status = train_and_scan_util.ScanFile<LANGUAGE_SOLIDITY>(eval_file,
                                                                 log_file);
             break;
           case LANGUAGE_CPP:
