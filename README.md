@@ -77,18 +77,18 @@ All tests in `make test` should pass.
 
 Download the training data for the language of interest depending on the memory constraints of your device. Note, however, that using smaller datasets may lead to reduced accuracy in the results ControlFlag produces and possibly an increase in the number of false positives it generates.
 
-Language | Dataset name | Size on disk | Memory requirements | Direct link | gdown ID | MD5 checksum
----------|--------------|--------------|---------------------|-------------|----------|-------------
-C | Small        | ~100MB       | ~400MB              | [link](https://drive.google.com/file/d/1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb/view?usp=sharing) | 1gvUyRXq1SeZD9g3i__RaamYAMo_QaQIb | 2825f209aba0430993f7a21e74d99889
-C | Medium       |   ~450MB     | ~1.3GB           | [link](https://drive.google.com/file/d/1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3/view?usp=sharing) | 1zsCFJAKlZlSAWKPfBcVGcQNlFB5Gtwo3 | aab2427edebe9ed4acab75c3c6227f24
-C | Large        |   ~9GB       | ~13GB           | [link](https://drive.google.com/file/d/1-jzs3zrKU541hwChaciXSk8zrnMN1mYc/view?usp=sharing) | 1-jzs3zrKU541hwChaciXSk8zrnMN1mYc | 1ba954d9716765d44917445d3abf8e85
-C++ | Small | ~200MB | ~500MB | [link](https://drive.google.com/file/d/1ZD9J7vyT61T1D4rsedVXgFi0CrVb5BJl/view?usp=sharing) | 1ZD9J7vyT61T1D4rsedVXgFi0CrVb5BJl | f954486e20961f0838ac08e5d4dbf312
-C++ | Medium | ~500MB | ~1.3GB | [link](https://drive.google.com/file/d/1Pj3bQN3nwy84F5o1w05T1Gz8b4hGuPUr/view?usp=sharing) | 1Pj3bQN3nwy84F5o1w05T1Gz8b4hGuPUr | a5c18ea1cdbe354b93aabf9ecaa5b07a
-C++ | Large | ~1.2GB | ~3GB | [link](https://drive.google.com/file/d/14iNcH3plw3EYnYfX63LntPtyr8Pwo2IP/view?usp=sharing) | 14iNcH3plw3EYnYfX63LntPtyr8Pwo2IP | 4f5ffc1ab942eaba399cafd5be8bb45f
-PHP | Small      | ~120MB       |  ~1GB           | [Link](https://drive.google.com/file/d/1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5/view?usp=sharing) | 1zUnBHMXPIXmlrCfWze8nNoMEQnc0W2K5 | 5a1cc4c24a20de7dad1b9f40661d517a
+Language | Dataset name | Size on disk | Memory requirements | Direct link | MD5 checksum
+---------|--------------|--------------|---------------------|-------------|-------------
+C | Small        | ~100MB       | ~400MB              | [link](https://www.dropbox.com/s/88kb00r71t0lf94/c_lang_if_stmts_6000_gitrepos_small.ts.tgz?dl=0)| 2825f209aba0430993f7a21e74d99889
+C | Medium       |   ~450MB     | ~1.3GB           | [link](https://www.dropbox.com/s/zjdwmqvhgbdnuns/c_lang_if_stmts_6000_gitrepos_medium.ts.tgz?dl=0) | aab2427edebe9ed4acab75c3c6227f24
+C | Large        |   ~9GB       | ~13GB           | [link](https://www.dropbox.com/s/oledgd1jli55xps/c_lang_if_stmts_6000_gitrepos.large.ts.tgz?dl=0) | 1ba954d9716765d44917445d3abf8e85
+C++ | Small | ~200MB | ~500MB | [link](https://www.dropbox.com/s/jtys6pihknl329b/cpp_controlflag_if_stmts_small.ts.tgz?dl=0) | f954486e20961f0838ac08e5d4dbf312
+C++ | Medium | ~500MB | ~1.3GB | [link](https://www.dropbox.com/s/ea9nwa2ijv2zfxq/cpp_controlflag_if_stmts_medium.ts.tgz?dl=0) |  a5c18ea1cdbe354b93aabf9ecaa5b07a
+C++ | Large | ~1.2GB | ~3GB | [link](https://www.dropbox.com/s/4du59qq28r4qnbw/cpp_controlflag_if_stmts_large.ts.tgz?dl=0) | 4f5ffc1ab942eaba399cafd5be8bb45f
+PHP | Small      | ~120MB       |  ~1GB           | [link](https://www.dropbox.com/s/it0ql3d2e1viao8/php_controlflag_if_stmts.ts.tgz?dl=0) | 5a1cc4c24a20de7dad1b9f40661d517a
 
 ```
-$ python -m pip install gdown && gdown https://drive.google.com/uc?id=<id_from_table>
+$ Download <tgz_file> from the link above.
 $ (optional) md5sum <tgz_file>
 $ tar -zxf <tgz_file>
 ```
