@@ -100,7 +100,7 @@ int handle_command_args(int argc, char* argv[], CFDumpArgs& command_args) {
   int opt;
   while ((opt = getopt(argc, argv, "f:l:g:t:")) != -1) {
     switch (opt) {
-      case 'f': command_args.source_file_ = optarg; break;
+      case 'f': command_args.source_file_ = FormatPath(optarg); break;
       case 'l':
         command_args.source_language_ = VerifyLanguage(atoi(optarg)); break;
       case 'g':

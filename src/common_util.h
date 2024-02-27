@@ -31,6 +31,21 @@
 
 #include "parser.h"
 
+#ifdef WIN32
+#include <regex>
+typedef long long suseconds_t;
+inline std::string FormatPath(const std::string &filename) {
+  // If the filename path comes from a bash command, translate its posix drive
+  //  letter into a windows one
+  std::regex re("^\\/([a-zA-Z])\\/");
+  return std::regex_replace(filename, re, "$1:/");
+}
+#else   // WIN32
+inline std::string FormatPath(const std::string &filename) {
+  return filename;
+}
+#endif  // WIN32
+
 //----------------------------------------------------------------------------
 
 typedef TSNode code_block_t;
@@ -88,8 +103,8 @@ class Timer {
 
     suseconds_t diff_microsec = timeval2microsec(end_tv_) -
                                 timeval2microsec(start_tv_);
-    struct timeval diff_tv = {.tv_sec = diff_microsec / kMicroSecs,
-                              .tv_usec = diff_microsec % kMicroSecs};
+    struct timeval diff_tv = {.tv_sec = static_cast<decltype(diff_tv.tv_sec)>(diff_microsec / kMicroSecs),
+                              .tv_usec = static_cast<decltype(diff_tv.tv_usec)>(diff_microsec % kMicroSecs)};
     return diff_tv;
   }
 
