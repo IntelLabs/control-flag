@@ -27,18 +27,18 @@ target_include_directories(tree-sitter-verilog
 )
 
 add_library(tree-sitter-php STATIC
-  tree-sitter-php/src/scanner.cc
-  tree-sitter-php/src/parser.c
+  tree-sitter-php/php/src/scanner.c
+  tree-sitter-php/php/src/parser.c
 )
 
 target_include_directories(tree-sitter-php
   PRIVATE
-  tree-sitter-php/src
+  tree-sitter-php/php/src
 )
 
 add_library(tree-sitter-cpp STATIC
   tree-sitter-cpp/src/parser.c
-  tree-sitter-cpp/src/scanner.cc
+  tree-sitter-cpp/src/scanner.c
 )
 
 target_include_directories(tree-sitter-cpp
