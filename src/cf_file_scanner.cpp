@@ -66,9 +66,9 @@ static int handle_command_args(int argc, char* argv[], FileScannerArgs& args) {
   while ((opt = getopt(argc, argv, "v:t:e:c:n:s:j:o:a:l:")) != -1) {
     switch (opt) {
       case 't': args.train_dataset_ = optarg; break;
-      case 'e': args.eval_source_file_ = optarg; break;
-      case 's': args.eval_source_file_list_ = optarg; break;
-      case 'o': args.log_dir_ = optarg; break;
+      case 'e': args.eval_source_file_ = FormatPath(optarg); break;
+      case 's': args.eval_source_file_list_ = FormatPath(optarg); break;
+      case 'o': args.log_dir_ = FormatPath(optarg); break;
       // Fixing the max cost to 2 to keep autocorrection time reasonable.
       case 'c': args.scan_config_.max_cost_ = std::max(0, atoi(optarg)); break;
       case 'n': args.scan_config_.max_autocorrections_ =
@@ -108,7 +108,7 @@ static int AddEvalFileNamesIntoList(const FileScannerArgs& file_scanner_args,
                                       file_scanner_args.eval_source_file_list_);
     }
     while (std::getline(stream, line))
-      eval_file_names.push_back(line);
+      eval_file_names.push_back(FormatPath(line));
   }
   return EXIT_SUCCESS;
 }

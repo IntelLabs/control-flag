@@ -46,6 +46,7 @@ foreach(file ${files})
       tree-sitter-cpp
       tree-sitter-verilog
       pthread)
+    target_link_options(${file_without_ext} PRIVATE $<$<PLATFORM_ID:Windows>:-static-libgcc -static-libstdc++ -static>)
     foreach(part ${${file_without_ext}_parts})
       add_test(NAME ${file_without_ext}_${part} COMMAND ${file_without_ext} ${part} WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY})
       set_tests_properties(${file_without_ext}_${part}

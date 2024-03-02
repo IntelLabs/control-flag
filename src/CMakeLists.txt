@@ -45,7 +45,17 @@ target_include_directories(cf_base ${COMMON_INCLUDES})
 add_executable(cf_file_scanner cf_file_scanner.cpp)
 target_include_directories(cf_file_scanner ${COMMON_INCLUDES})
 target_link_libraries(cf_file_scanner ${COMMON_LINK_LIBRARIES})
+target_link_options(cf_file_scanner PRIVATE $<$<PLATFORM_ID:Windows>:-static-libgcc -static-libstdc++ -static>)
 
 add_executable(cf_dump_code_blocks cf_dump_code_blocks.cpp)
 target_include_directories(cf_dump_code_blocks ${COMMON_INCLUDES})
 target_link_libraries(cf_dump_code_blocks ${COMMON_LINK_LIBRARIES})
+target_link_options(cf_dump_code_blocks PRIVATE $<$<PLATFORM_ID:Windows>:-static-libgcc -static-libstdc++ -static>)
+
+# To be able to use the default scripts even if we have chosen to build outside
+#  the source directory
+install(TARGETS
+          cf_file_scanner
+          cf_dump_code_blocks
+        RUNTIME           # Following options apply to runtime artifacts.
+          COMPONENT Runtime)
