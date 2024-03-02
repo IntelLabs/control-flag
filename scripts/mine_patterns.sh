@@ -10,7 +10,7 @@ function print_usage() {
   else
     echo "[-n number_of_processes_to_use_for_mining]  (default: num_cpus_on_system)"
   fi
-  echo "[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++)"
+  echo "[-l source_language_number] (default: 1 (C), supported: 1 (C), 2 (Verilog), 3 (PHP), 4 (C++), 5 (Solidity)"
   echo "[-g github_repo_id] (default: 0) A unique identifier for GitHub repository, if any"
   exit
 }
@@ -43,9 +43,9 @@ then
   print_usage $0
 fi
 
-if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 4 ));
+if (( ${LANGUAGE} < 1  || ${LANGUAGE} > 5 ));
 then
-  echo "ERROR: Only 1 (C), 2 (Verilog), 3 (PHP), and 4 (C++) are supported languages; received ${LANGUAGE}"
+  echo "ERROR: Only 1 (C), 2 (Verilog), 3 (PHP), 4 (C++), 5 (Solidity) are supported languages; received ${LANGUAGE}"
   print_usage $0
 fi
 
@@ -69,6 +69,9 @@ then
 elif [ "${LANGUAGE}" = "4" ];
 then
   find "${TRAIN_DIR}" -iname "*.cpp" -o -iname "*.cc" -o -iname "*.cxx" -o -iname "*.h" -o -iname "*.hpp" -o -iname "*.hxx" -type f > ${FILE_LIST}
+elif [ "${LANGUAGE}" = "5" ];
+then
+  find "${TRAIN_DIR}" -iname "*.sol" -type f > ${FILE_LIST}
 fi
 
 SCRIPTS_DIR=`dirname $0`

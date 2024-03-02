@@ -127,6 +127,8 @@ ManagedTSTree GetTSTree<LANGUAGE_VERILOG>(const std::string&, bool);
 template
 ManagedTSTree GetTSTree<LANGUAGE_PHP>(const std::string&, bool);
 template
+ManagedTSTree GetTSTree<LANGUAGE_SOLIDITY>(const std::string&, bool);
+template
 ManagedTSTree GetTSTree<LANGUAGE_CPP>(const std::string&, bool);
 template
 ManagedTSTree GetTSTree<LANGUAGE_C>(const std::string&, std::string&);
@@ -134,6 +136,8 @@ template
 ManagedTSTree GetTSTree<LANGUAGE_VERILOG>(const std::string&, std::string&);
 template
 ManagedTSTree GetTSTree<LANGUAGE_PHP>(const std::string&, std::string&);
+template
+ManagedTSTree GetTSTree<LANGUAGE_SOLIDITY>(const std::string&, std::string&);
 template
 ManagedTSTree GetTSTree<LANGUAGE_CPP>(const std::string&, std::string&);
 template
@@ -144,6 +148,9 @@ void CollectCodeBlocksOfInterest<LANGUAGE_VERILOG>(const ManagedTSTree &,
                                                    code_blocks_t&);
 template
 void CollectCodeBlocksOfInterest<LANGUAGE_PHP>(const ManagedTSTree &,
+                                               code_blocks_t&);
+template
+void CollectCodeBlocksOfInterest<LANGUAGE_SOLIDITY>(const ManagedTSTree &,
                                                code_blocks_t&);
 template
 void CollectCodeBlocksOfInterest<LANGUAGE_CPP>(const ManagedTSTree &,

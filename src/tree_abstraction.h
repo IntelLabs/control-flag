@@ -147,6 +147,12 @@ inline std::string NodeToString<LEVEL_MIN, LANGUAGE_PHP>(
   return NodeToString<LEVEL_MIN, LANGUAGE_C>(conditional_expression);
 }
 
+template <>
+inline std::string NodeToString<LEVEL_MIN, LANGUAGE_SOLIDITY>(
+    const TSNode& conditional_expression) {
+  return NodeToString<LEVEL_MIN, LANGUAGE_C>(conditional_expression);
+}
+
 // ---------------------------------------------------------------------------
 
 inline std::string AbstractTerminalString(const TSNode& node) {
@@ -405,6 +411,12 @@ inline std::string NodeToString<LEVEL_TWO, LANGUAGE_PHP>(
   const TSNode& conditional_expression) {
     return NodeToString<LEVEL_MIN, LANGUAGE_PHP>(conditional_expression);
 }
+
+template <>
+inline std::string NodeToString<LEVEL_TWO, LANGUAGE_SOLIDITY>(
+  const TSNode& conditional_expression) {
+    return NodeToString<LEVEL_MIN, LANGUAGE_SOLIDITY>(conditional_expression);
+}
 // -----------------------------------------------------------------------
 // Close to full-detailed level with using Tree-sitter print. Only
 // difference is in printing operators for binary and unary ops.
@@ -452,6 +464,12 @@ inline std::string NodeToString<LEVEL_ONE, LANGUAGE_VERILOG>(
 
 template <>
 inline std::string NodeToString<LEVEL_ONE, LANGUAGE_PHP>(
+  const TSNode& conditional_expression) {
+    return NodeToString<LEVEL_ONE, LANGUAGE_C>(conditional_expression);
+}
+
+template <>
+inline std::string NodeToString<LEVEL_ONE, LANGUAGE_SOLIDITY>(
   const TSNode& conditional_expression) {
     return NodeToString<LEVEL_ONE, LANGUAGE_C>(conditional_expression);
 }
